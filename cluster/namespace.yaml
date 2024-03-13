@@ -1,0 +1,19 @@
+# kubectl apply -f namespace.yaml
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: exercise
+  labels:
+    name: exercise
+
+---
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: argocd
+  labels:
+    name: argocd
+    
+---

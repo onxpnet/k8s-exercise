@@ -1,0 +1,15 @@
+# kubectl -n exercise apply -f pod.yaml
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: own-your-stack
+  labels:
+    app: own-your-stack
+spec:
+  containers:
+    - name: own-your-stack
+      image: glendmaatita/own-your-stack
+      ports:
+        - containerPort: 300
+
