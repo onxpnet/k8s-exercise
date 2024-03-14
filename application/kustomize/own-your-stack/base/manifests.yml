@@ -30,7 +30,7 @@ spec:
               cpu: 100m
       restartPolicy: Always
       imagePullSecrets:
-        - name: pull-secret
+        - name: docker-secret
 
 ---
 apiVersion: autoscaling/v2

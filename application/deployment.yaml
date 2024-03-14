@@ -60,3 +60,5 @@ spec:
           #   - secretRef:
           #       name: own-your-stack-secret
       restartPolicy: Always
+      imagePullSecrets:
+        - name: docker-secret
