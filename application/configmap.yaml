@@ -1,1 +1,10 @@
 # kubectl -n exercise apply -f configmap.yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: own-your-stack-cm
+data:
+  APP_NAME: "Own Your Stack"
+  AUTHOR: "OnXP"
+---

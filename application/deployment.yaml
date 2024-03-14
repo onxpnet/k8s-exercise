@@ -26,4 +26,37 @@ spec:
             limits:
               memory: 200Mi
               cpu: 100m
+          
+          # env
+          env:
+          - name: APP_URL
+            value: https://own-your-stack.bootcamp.onxp.net
+          - name: APP_KEY
+            value: randomlongstring
+          
+          # health-check
+          readinessProbe:
+            httpGet:
+              path: /health_check
+              port: 8000
+            successThreshold: 1
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: /health_check
+              port: 8000
+            successThreshold: 1
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 1
+            
+          # envFrom:
+          #   - configMapRef:
+          #       name: own-your-stack-cm
+          #   - secretRef:
+          #       name: own-your-stack-secret
       restartPolicy: Always
