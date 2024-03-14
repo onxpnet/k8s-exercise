@@ -1,0 +1,6 @@
+kind: Kustomization
+bases:
+  - ../../base
+patchesStrategicMerge:
+  - manifests.yml
+namespace: exercise-production

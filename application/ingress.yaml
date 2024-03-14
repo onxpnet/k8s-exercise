@@ -1,1 +1,30 @@
 # kubectl -n exercise apply -f ingress.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: own-your-stack
+  annotations:
+    kubernetes.io/ingress.class: public
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+  labels:
+    app: own-your-stack
+spec:
+  rules:
+    - host: oys.bootcamp.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: own-your-stack
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - oys.bootcamp.onxp.net
+      secretName: tls-bootcamp-own-your-stack

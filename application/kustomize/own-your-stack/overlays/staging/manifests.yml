@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: own-your-stack
+  labels:
+    app: own-your-stack
+spec:
+  selector:
+    matchLabels:
+      app: own-your-stack
+  template:
+    spec:
+      containers:
+        - image: glendmaatita/own-your-stack:latest
+          name: own-your-stack
+          resources:
+            requests:
+              memory: 50Mi
+              cpu: 25m
+            limits:
+              memory: 50Mi
+              cpu: 25m

@@ -1,1 +1,15 @@
 # kubectl -n exercise apply -f service.yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: own-your-stack
+  labels:
+    app: own-your-stack
+spec:
+  selector:
+    app: own-your-stack
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000

@@ -1,0 +1,13 @@
+# helm repo add bitnami https://charts.bitnami.com/bitnami
+# helm repo update
+# helm install redis bitnami/redis -n exercise -f values-6.yaml
+image:
+  tag: 6.2
+architecture: standalone
+auth:
+  enabled: false
+  sentinel: false
+master:
+  persistence:
+    enabled: false
+usePassword: false
