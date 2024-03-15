@@ -11,5 +11,5 @@ spec:
     - name: own-your-stack
       image: glendmaatita/own-your-stack
       ports:
-        - containerPort: 300
+        - containerPort: 3000
 
