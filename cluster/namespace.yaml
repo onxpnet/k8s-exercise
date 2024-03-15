@@ -9,6 +9,30 @@ metadata:
     name: exercise
 
 ---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: exercise-kel1
+  labels:
+    name: exercise-kel1
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: exercise-kel2
+  labels:
+    name: exercise-kel2
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: exercise-kel3
+  labels:
+    name: exercise-kel3
+
+---
 
 kind: Namespace
 apiVersion: v1
