@@ -22,6 +22,14 @@ spec:
       labels:
         app: own-your-stack
     spec:
+      # initContainers:
+      #   - name: init-curl
+      #     image: curlimages/curl
+      #     imagePullPolicy: Always 
+      #     command:
+      #     - curl
+      #     - -v
+      #     - https://onxp.net
       containers:
         - name: own-your-stack
           image: glendmaatita/own-your-stack:latest
