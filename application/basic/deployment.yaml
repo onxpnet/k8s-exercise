@@ -7,9 +7,16 @@ metadata:
   labels:
     app: own-your-stack
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: own-your-stack
+
+  # strategy:
+  #   type: RollingUpdate
+  #   rollingUpdate:
+  #     maxSurge: 1
+  #     maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -37,7 +44,7 @@ spec:
           # health-check
           readinessProbe:
             httpGet:
-              path: /health_check
+              path: /
               port: 8000
             successThreshold: 1
             failureThreshold: 3
@@ -46,7 +53,7 @@ spec:
             timeoutSeconds: 1
           livenessProbe:
             httpGet:
-              path: /health_check
+              path: /
               port: 8000
             successThreshold: 1
             failureThreshold: 3
