@@ -12,6 +12,22 @@ metadata:
 kind: Namespace
 apiVersion: v1
 metadata:
+  name: exercise-staging
+  labels:
+    name: exercise-staging
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: exercise-production
+  labels:
+    name: exercise-production
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
   name: exercise-kel1
   labels:
     name: exercise-kel1
