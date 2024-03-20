@@ -48,6 +48,16 @@ spec:
             value: https://own-your-stack.bootcamp.onxp.net
           - name: APP_KEY
             value: randomlongstring
+          # - name: MY_APP_NAME
+          #   valueFrom:
+          #     configMapKeyRef:
+          #       name: own-your-stack-cm
+          #       key: APP_NAME
+          # - name: MY_DB_USERNAME
+          #   valueFrom:
+          #     configMapKeyRef:
+          #       name: own-your-stack-secret
+          #       key: DB_USERNAME
           
           # health-check
           readinessProbe:
@@ -76,6 +86,9 @@ spec:
           #       name: own-your-stack-secret
 
           # volumeMounts:
+          # - name: app-config-volume
+          #   mountPath: /etc/app/app.conf
+          #   subPath: app.conf
           # - name: emptydir-volume-exercise
           #   mountPath: /data/emptydir
           # using storage with hostpath
@@ -92,6 +105,10 @@ spec:
       # volumes:
       # - name: emptydir-volume-exercise
       #   emptyDir: {}
+      # - name: app-config-volume
+      #   configMap:
+      #     name: app-config
+
 
       # using storage with hostpath
       # - name: hostpath-volume-exercise

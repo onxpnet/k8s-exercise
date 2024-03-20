@@ -8,3 +8,14 @@ data:
   APP_NAME: "Own Your Stack"
   AUTHOR: "OnXP"
 ---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  app.conf: |
+    [options]
+    addons_path = /mnt/extra-addons
+    data_dir = /var/lib/data
+    max_conn = 100
