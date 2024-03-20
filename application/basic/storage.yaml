@@ -1,1 +1,0 @@
-# kubectl -n exercise apply -f storage.yaml
