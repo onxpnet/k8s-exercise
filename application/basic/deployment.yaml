@@ -74,6 +74,32 @@ spec:
           #       name: own-your-stack-cm
           #   - secretRef:
           #       name: own-your-stack-secret
+
+          # volumeMounts:
+          # - name: emptydir-volume-exercise
+          #   mountPath: /data/emptydir
+          # using storage with hostpath
+          # - name: hostpath-volume-exercise
+          #   mountPath: /data/hostpath
+          # using storage with NFS
+          # - name: nfs-volume-exercise
+          #   mountPath: /opt/data/exercise
+
       restartPolicy: Always
       imagePullSecrets:
         - name: docker-secret
+        
+      # volumes:
+      # - name: emptydir-volume-exercise
+      #   emptyDir: {}
+
+      # using storage with hostpath
+      # - name: hostpath-volume-exercise
+      #   persistentVolumeClaim:
+      #     claimName: hostpath-exercise-pvc
+
+
+      # using storage with NFS
+      # - name: nfs-volume-exercise
+      #   persistentVolumeClaim:
+      #     claimName: nfs-pvc-exercise

@@ -1,0 +1,21 @@
+# kubectl apply -f hostpath-pv.yaml
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hostpath-exercise-pv
+  labels:
+    type: hostpath-exercise
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /mnt/data
+    type: DirectoryOrCreate
+
+---

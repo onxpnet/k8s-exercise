@@ -1,0 +1,18 @@
+# kubectl -n exercise apply -f nfs-pv.yaml
+# reference: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pv-exercise
+  # for match using labels
+  # labels:
+  #   type: nfs
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: nfs-server.exercise.svc.cluster.local
+    path: "/"

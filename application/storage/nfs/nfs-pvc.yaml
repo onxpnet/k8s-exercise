@@ -1,0 +1,17 @@
+# kubectl -n exercise apply -f nfs-pvc.yaml
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nfs-pvc-exercise
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 10Gi
+  # for match using labels
+  # selector:
+  #   matchLabels:
+  #     type: nfs
