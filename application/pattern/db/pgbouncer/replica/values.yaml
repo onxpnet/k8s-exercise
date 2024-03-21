@@ -1,0 +1,55 @@
+## PGBouncer Settings
+# helm repo update
+# helm install pgbouncer-master ./../template -n exercise -f values.yaml
+config:
+  adminUser: onxp
+  adminPassword: onxpsecret
+  databases: 
+    bkba_production:
+     host: 127.0.0.1
+     port: 5433
+  pgbouncer: 
+    auth_type: md5
+    pool_mode: transaction
+    max_client_conn: 1024
+    default_pool_size: 15
+    max_db_connections: 15
+    listen_port: 5432
+    ignore_startup_parameters: extra_float_digits
+
+replicaCount: 1
+updateStrategy:
+ type: RollingUpdate
+
+minReadySeconds: 0
+revisionHistoryLimit: 3
+imagePullSecrets: []
+
+image:
+  registry: ""
+  repository: pgbouncer/pgbouncer
+  tag: 1.15.0
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 5432
+
+pgbouncerExporter:
+  enabled: false
+
+serviceAccount:
+  name: cloudsql-onxp
+  annotations: {}
+  create: false
+
+# Connect CloudSQL through Proxy
+# extraContainers:
+# - name: cloud-sql-proxy
+#   image: gcr.io/cloudsql-docker/gce-proxy:1.17
+#   command:
+#     - "/cloud_sql_proxy"
+#     - "-ip_address_types=PRIVATE"
+#     - "-instances=mashanz-software-engineering:asia-southeast2:onxp-sql-replica=tcp:5433"
+#   securityContext:
+#     runAsNonRoot: true
