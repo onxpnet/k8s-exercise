@@ -55,7 +55,7 @@ spec:
           #       key: APP_NAME
           # - name: MY_DB_USERNAME
           #   valueFrom:
-          #     configMapKeyRef:
+          #     secretKeyRef:
           #       name: own-your-stack-secret
           #       key: DB_USERNAME
           
