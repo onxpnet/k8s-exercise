@@ -26,11 +26,11 @@ spec:
                 name: own-your-stack
                 port:
                   number: 80
-          # - path: /my-route/my-path
-          #   pathType: Exact
+          # - path: /blog
+          #   pathType: Prefix
           #   backend:
           #     service:
-          #       name: other-svc
+          #       name: blog
           #       port:
           #         number: 80
   tls:
