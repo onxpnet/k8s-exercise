@@ -5,8 +5,10 @@ kind: Ingress
 metadata:
   name: own-your-stack
   annotations:
-    kubernetes.io/ingress.class: public
+    kubernetes.io/ingress.class: public # use "nginx" if not using microk8s
     cert-manager.io/cluster-issuer: letsencrypt-issuer
+
+    # https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/basic-configuration/
     nginx.ingress.kubernetes.io/proxy-body-size: "100m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
@@ -18,12 +20,19 @@ spec:
       http:
         paths:
           - path: /
-            pathType: Prefix
+            pathType: Prefix # can be ImplementationSpecific, Exact
             backend:
               service:
                 name: own-your-stack
                 port:
                   number: 80
+          # - path: /my-route/my-path
+          #   pathType: Exact
+          #   backend:
+          #     service:
+          #       name: other-svc
+          #       port:
+          #         number: 80
   tls:
     - hosts:
         - oys.bootcamp.onxp.net
