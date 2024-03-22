@@ -1,0 +1,52 @@
+# kubectl -n exercise apply -f deployment.yaml
+# locust --headless --users 100000 --spawn-rate 1000 -H http://own-your-stack.exercise
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust
+  labels:
+    app: locust
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: locust
+  template:
+    metadata:
+      labels:
+        app: locust
+    spec:
+      containers:
+        - name: locust
+          image: locustio/locust
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: locust-config-volume
+            mountPath: /home/locust/locustfile.py
+            subPath: locustfile.py
+          command:
+            - locust 
+            - -f /home/locust/locustfile.py 
+            - --master 
+            - -H http://master:8089
+      volumes:
+        - name: locust-config-volume
+          configMap:
+            name: locust-config
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: locust-config
+data:
+  locustfile.py: |
+    from locust import HttpUser, task
+
+    class LoadTest(HttpUser):
+        @task
+        def load_test(self):
+            self.client.get("/")

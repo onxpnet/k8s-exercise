@@ -20,3 +20,5 @@ spec:
         - name: bastion
           image: glendmaatita/bastion:latest
           imagePullPolicy: Always
+
+---

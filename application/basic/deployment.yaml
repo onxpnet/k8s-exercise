@@ -7,6 +7,7 @@ metadata:
   labels:
     app: own-your-stack
 spec:
+  # comment if using HPA
   replicas: 1
   selector:
     matchLabels:
@@ -36,10 +37,10 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              memory: 100Mi
+              memory: 50Mi
               cpu: 50m
             limits:
-              memory: 200Mi
+              memory: 70Mi
               cpu: 100m
           
           # env
@@ -99,12 +100,13 @@ spec:
           #   mountPath: /opt/data/exercise
 
       restartPolicy: Always
-      imagePullSecrets:
-        - name: docker-secret
+      # imagePullSecrets:
+      #   - name: docker-secret
         
       # volumes:
       # - name: emptydir-volume-exercise
       #   emptyDir: {}
+      
       # - name: app-config-volume
       #   configMap:
       #     name: app-config
