@@ -63,3 +63,32 @@ spec:
   clusterIP: None
   selector:
     role: mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-read
+  labels:
+    name: mongo-read
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    type: read
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-primary
+  labels:
+    name: mongo-primary
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    type: primary

@@ -6,5 +6,6 @@ patches:
   # - manifests.yml
   - path: deployment.yaml
   - path: ingress.yaml
+  - path: hpa.yaml
   
 namespace: exercise-production

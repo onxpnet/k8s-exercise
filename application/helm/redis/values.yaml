@@ -6,7 +6,7 @@
 
 # docs: https://github.com/bitnami/charts/tree/main/bitnami/redis
 image:
-  tag: 7.2
+  tag: 6.2
 architecture: standalone
 auth:
   enabled: false

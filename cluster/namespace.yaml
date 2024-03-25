@@ -36,6 +36,22 @@ metadata:
 kind: Namespace
 apiVersion: v1
 metadata:
+  name: exercise-kel1-staging
+  labels:
+    name: exercise-kel1-staging
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: exercise-kel1-production
+  labels:
+    name: exercise-kel1-production
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
   name: exercise-kel2
   labels:
     name: exercise-kel2
@@ -44,9 +60,42 @@ metadata:
 kind: Namespace
 apiVersion: v1
 metadata:
+  name: exercise-kel2-staging
+  labels:
+    name: exercise-kel2-staging
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: exercise-kel2-production
+  labels:
+    name: exercise-kel2-production
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
   name: exercise-kel3
   labels:
     name: exercise-kel3
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: exercise-kel3-staging
+  labels:
+    name: exercise-kel3-staging
+
+---
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: exercise-kel3-production
+  labels:
+    name: exercise-kel3-production
 
 ---
 
