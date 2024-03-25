@@ -1,3 +1,11 @@
+# Install
+#  - staging: kubectl -n exercise-staging apply --kustomize overlays/staging
+#  - production: kubectl -n exercise-production apply --kustomize overlays/production
+# 
+# Destroy
+#  - staging: kubectl -n exercise-staging destroy --kustomize overlays/staging
+#  - production: kubectl -n exercise-production destroy --kustomize overlays/production
+
 resources:
   # use it when you don't want to separate resources
   # - manifests.yml

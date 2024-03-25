@@ -1,8 +1,12 @@
 # helm repo add bitnami https://charts.bitnami.com/bitnami
 # helm repo update
-# helm install redis bitnami/redis -n exercise -f values-6.yaml
+# install: helm install redis bitnami/redis -n exercise -f values.yaml
+# upgrade: helm upgrade redis bitnami/redis -n exercise -f values.yaml
+# uninstall: helm uninstall redis -n exercise
+
+# docs: https://github.com/bitnami/charts/tree/main/bitnami/redis
 image:
-  tag: 6.2
+  tag: 7.2
 architecture: standalone
 auth:
   enabled: false

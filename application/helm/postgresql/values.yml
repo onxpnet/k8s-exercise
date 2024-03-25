@@ -1,0 +1,37 @@
+# helm repo add bitnami https://charts.bitnami.com/bitnami
+# helm install postgresql -f values.yml bitnami/postgresql -n exercise
+
+# docs: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+image:
+  tag: 13.13.0
+
+auth:
+  enablePostgresUser: true
+  postgresPassword: "onxpsecret"
+  username: "onxp"
+  password: "onxpsecret"
+  database: "example_db"
+
+architecture: replication
+
+replication:
+  synchronousCommit: "off"
+  numSynchronousReplicas: 2
+  applicationName: "onxp-postgresql"
+
+primary:
+  persistence:
+    enabled: true
+
+readReplicas:
+  name: "onxp-postgresql-read-replica"
+  replicaCount: 2
+  persistence:
+    enabled: true
+
+volumePermissions:
+  enabled: true
+
+initdbScripts:
+  init_db.sql: |
+    CREATE DATABASE own-your-stack;
