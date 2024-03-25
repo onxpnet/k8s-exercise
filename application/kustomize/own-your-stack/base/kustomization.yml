@@ -1,2 +1,7 @@
 resources:
-  - manifests.yml
+  # use it when you don't want to separate resources
+  # - manifests.yml
+  - deployment.yaml
+  - hpa.yaml
+  - ingress.yaml
+  - service.yaml

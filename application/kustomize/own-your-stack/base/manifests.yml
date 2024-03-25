@@ -18,16 +18,13 @@ spec:
         - name: own-your-stack
           image: glendmaatita/own-your-stack:latest
           imagePullPolicy: Always
-          envFrom:
-            - configMapRef:
-                name: own-your-stack-config
           resources:
             requests:
-              memory: 100Mi
-              cpu: 50m
+              memory: 30Mi
+              cpu: 30m
             limits:
-              memory: 200Mi
-              cpu: 100m
+              memory: 40Mi
+              cpu: 40m
       restartPolicy: Always
       imagePullSecrets:
         - name: docker-secret
@@ -72,15 +69,14 @@ spec:
       port: 80
       targetPort: 8000
 ---
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: own-your-stack
   annotations:
-    kubernetes.io/ingress.class: public
     cert-manager.io/cluster-issuer: letsencrypt-issuer
 spec:
+  ingressClassName: public
   rules:
     - host: own-your-stack-staging.bootcamp.onxp.net
       http:

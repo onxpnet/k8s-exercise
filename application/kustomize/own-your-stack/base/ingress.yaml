@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: own-your-stack
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+spec:
+  ingressClassName: public
+  rules:
+    - host: own-your-stack-staging.bootcamp.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: own-your-stack
+                port: 
+                  number: 80
+  tls:
+    - hosts:
+        - own-your-stack-staging.bootcamp.onxp.net
+      secretName: tls-secret-own-your-stack
+---

@@ -1,6 +1,10 @@
 kind: Kustomization
-bases:
+resources:
   - ../../base
-patchesStrategicMerge:
-  - manifests.yml
+  # use it when you don't want to separate resources
+patches:
+  # - manifests.yml
+  - path: deployment.yaml
+  - path: ingress.yaml
+  
 namespace: exercise-production
