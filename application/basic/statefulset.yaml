@@ -1,4 +1,5 @@
 # kubectl -n exercise apply -f statefulset.yaml
+# connect: mongosh --host mongo-0.mongo
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -25,6 +26,8 @@ spec:
           - mongod
           - "--replSet"
           - rs0
+          - "--bind_ip"
+          - "0.0.0.0"
         ports:
           - containerPort: 27017
         volumeMounts:

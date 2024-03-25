@@ -1,1 +1,15 @@
-# kubectl appy -f sa.yaml
+# ~$ gcloud iam service-accounts add-iam-policy-binding \
+#   --role roles/iam.workloadIdentityUser \
+#   --member "serviceAccount:mashanz-software-engineering.svc.id.goog[exercise/cloudsql-exercise]" \
+#   cloudsql-onxp@mashanz-software-engineering.iam.gserviceaccount.com
+# ```
+# 4. Annotate the KSA to tie it with GSA
+# ```
+# ~$ kubectl annotate serviceaccount \
+#   --namespace exercise \
+#   cloudsql-exercise \
+#   iam.gke.io/gcp-service-account=cloudsql-onxp@mashanz-software-engineering.iam.gserviceaccount.com
+
+# kubectl apply -f sa.yaml
+
+# 

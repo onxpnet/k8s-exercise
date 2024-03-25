@@ -2,6 +2,8 @@
 # helm install postgresql -f values.yml bitnami/postgresql -n exercise
 
 # docs: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+# connect to Replica
+# - via Service: psql -U onxp -d example_db -h postgresql-onxp-postgresql-read-replica.exercise.svc.cluster.local
 image:
   tag: 13.13.0
 
