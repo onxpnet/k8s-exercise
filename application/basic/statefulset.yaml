@@ -1,5 +1,6 @@
 # kubectl -n exercise apply -f statefulset.yaml
-# connect: mongosh --host mongo-0.mongo
+# mongosh --host mongo.exercise
+# mongosh --host mongo-0.mongo
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -65,30 +66,3 @@ spec:
     role: mongo
 
 ---
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: mongo-read
-  labels:
-    name: mongo-read
-spec:
-  ports:
-    - port: 27017
-      targetPort: 27017
-  selector:
-    type: read
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mongo-primary
-  labels:
-    name: mongo-primary
-spec:
-  ports:
-    - port: 27017
-      targetPort: 27017
-  selector:
-    type: primary

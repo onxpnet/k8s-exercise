@@ -39,7 +39,7 @@ pgbouncerExporter:
   enabled: false
 
 serviceAccount:
-  name: cloudsql-onxp
+  name: onxp-exercise-sa
   annotations: {}
   create: false
 
