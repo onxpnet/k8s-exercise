@@ -5,7 +5,7 @@ config:
   adminUser: onxp
   adminPassword: onxpsecret
   databases: 
-    bkba_production:
+    onxp-production:
      host: 127.0.0.1
      port: 5433
   pgbouncer: 
@@ -44,12 +44,12 @@ serviceAccount:
   create: false
 
 # Connect CloudSQL through Proxy
-# extraContainers:
-# - name: cloud-sql-proxy
-#   image: gcr.io/cloudsql-docker/gce-proxy:1.17
-#   command:
-#     - "/cloud_sql_proxy"
-#     - "-ip_address_types=PRIVATE"
-#     - "-instances=mashanz-software-engineering:asia-southeast2:onxp-sql=tcp:5433"
-#   securityContext:
-#     runAsNonRoot: true
+extraContainers:
+- name: cloud-sql-proxy
+  image: gcr.io/cloudsql-docker/gce-proxy:1.17
+  command:
+    - "/cloud_sql_proxy"
+    - "-ip_address_types=PRIVATE"
+    - "-instances=mashanz-software-engineering:us-central1:onxp-sql=tcp:5433"
+  securityContext:
+    runAsNonRoot: true

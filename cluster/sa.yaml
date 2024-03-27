@@ -1,15 +1,16 @@
 # ~$ gcloud iam service-accounts add-iam-policy-binding \
 #   --role roles/iam.workloadIdentityUser \
-#   --member "serviceAccount:mashanz-software-engineering.svc.id.goog[exercise/cloudsql-exercise]" \
-#   onxp-exercise-sa@mashanz-software-engineering.iam.gserviceaccount.com
+#   --member "serviceAccount:mashanz-software-engineering.svc.id.goog[onxp-exercise-sa]" \
+#   cloudsql-onxp@mashanz-software-engineering.iam.gserviceaccount.com
 # ```
 # 4. Annotate the KSA to tie it with GSA
 # ```
 # ~$ kubectl annotate serviceaccount \
 #   --namespace exercise \
-#   cloudsql-exercise \
-#   iam.gke.io/gcp-service-account=onxp-exercise-sa@mashanz-software-engineering.iam.gserviceaccount.com
+#   onxp-exercise-sa \
+#   iam.gke.io/gcp-service-account=cloudsql-onxp@mashanz-software-engineering.iam.gserviceaccount.com
 
+# kubectl -n exercise apply -f sa.yaml
 # Check cluster role: 
 # - kubectl get clusterrolebindings --all-namespaces -o wide | grep onxp-exercise-sa
 
