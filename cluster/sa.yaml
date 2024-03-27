@@ -10,6 +10,25 @@
 #   cloudsql-exercise \
 #   iam.gke.io/gcp-service-account=cloudsql-onxp@mashanz-software-engineering.iam.gserviceaccount.com
 
-# kubectl apply -f sa.yaml
+# kubectl -n exercise apply -f sa.yaml
 
-# 
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: onxp-exercise-sa
+  namespace: exercise
+
+# execute after service acount and secret are created
+# secrets:
+#   - name: onxp-exercise-sa-secret
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: onxp-exercise-sa-secret
+  annotations:
+    kubernetes.io/service-account.name: onxp-exercise-sa
+type: "kubernetes.io/service-account-token"
+
