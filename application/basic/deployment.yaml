@@ -34,7 +34,7 @@ spec:
       
       # set service account 
       # secret will be mounted on /var/run/secrets/kubernetes.io/serviceaccount
-      serviceAccountName: onxp-exercise-sa
+      # serviceAccountName: onxp-exercise-sa
 
       containers:
         - name: own-your-stack
