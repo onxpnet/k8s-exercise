@@ -32,7 +32,7 @@ spec:
       #     - -v
       #     - https://onxp.net
       
-      # set service account 
+      # set service account. By default k8s will assign `default` sa to every pods
       # secret will be mounted on /var/run/secrets/kubernetes.io/serviceaccount
       # serviceAccountName: onxp-exercise-sa
 

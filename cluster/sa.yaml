@@ -1,6 +1,7 @@
+# Attach workload identity to ksa
 # ~$ gcloud iam service-accounts add-iam-policy-binding \
 #   --role roles/iam.workloadIdentityUser \
-#   --member "serviceAccount:mashanz-software-engineering.svc.id.goog[onxp-exercise-sa]" \
+#   --member "serviceAccount:mashanz-software-engineering.svc.id.goog[exercise/onxp-exercise-sa]" \
 #   cloudsql-onxp@mashanz-software-engineering.iam.gserviceaccount.com
 # ```
 # 4. Annotate the KSA to tie it with GSA
