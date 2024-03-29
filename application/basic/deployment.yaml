@@ -38,7 +38,7 @@ spec:
 
       containers:
         - name: own-your-stack
-          image: glendmaatita/own-your-stack:latest
+          image: glendmaatita/own-your-stack:v1.0.0
           imagePullPolicy: Always
           resources:
             requests:
