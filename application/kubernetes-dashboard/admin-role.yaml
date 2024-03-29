@@ -1,4 +1,5 @@
 # kubectl -n exercise apply -f admin-role.yaml
+# Note: Somehow, kubernetes dashboard on MicroK8s doesn't respect service account
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
