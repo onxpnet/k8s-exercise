@@ -30,3 +30,64 @@ spec:
         - name: docker-secret
 
 ---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: argocd-sync-oys-succeeded
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+spec:
+  template:
+    spec:
+      containers:
+        - name: discord-notification
+          image: curlimages/curl
+          command:
+            - curl
+            - -v
+            - GET
+            - https://onxp.net
+      restartPolicy: Never
+  backoffLimit: 2
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: argocd-sync-oys-failed
+  annotations:
+    argocd.argoproj.io/hook: SyncFail
+spec:
+  template:
+    spec:
+      containers:
+        - name: discord-notification
+          image: curlimages/curl
+          command:
+            - curl
+            - -v
+            - GET
+            - https://onxp.net
+      restartPolicy: Never
+  backoffLimit: 2
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: argocd-sync-oys-prepare
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+        - name: discord-notification
+          image: curlimages/curl
+          command:
+            - curl
+            - -v
+            - GET
+            - https://onxp.net
+      restartPolicy: Never
+  backoffLimit: 2
+

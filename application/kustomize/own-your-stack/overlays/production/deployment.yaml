@@ -10,6 +10,6 @@ spec:
   template:
     spec:
       containers:
-        - image: glendmaatita/own-your-stack:latest
+        - image: glendmaatita/own-your-stack:v1.0.0
           name: own-your-stack
 ---
