@@ -1,0 +1,15 @@
+# use it if you use NFS
+# kubectl -n atlantis apply -f pv-nfs.yaml
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pv-kubeconf
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: nfs-server-kubeconf.atlantis.svc.cluster.local
+    path: "/"

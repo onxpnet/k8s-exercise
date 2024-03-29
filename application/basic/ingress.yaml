@@ -5,7 +5,6 @@ kind: Ingress
 metadata:
   name: own-your-stack
   annotations:
-    kubernetes.io/ingress.class: public # use "nginx" if not using microk8s
     cert-manager.io/cluster-issuer: letsencrypt-issuer
 
     # https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/basic-configuration/
@@ -15,6 +14,7 @@ metadata:
   labels:
     app: own-your-stack
 spec:
+  ingressClassName: public # use "nginx" if not using microk8s
   rules:
     - host: oys.bootcamp.onxp.net
       http:

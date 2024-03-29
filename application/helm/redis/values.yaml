@@ -4,6 +4,9 @@
 # upgrade: helm upgrade redis bitnami/redis -n exercise -f values.yaml
 # uninstall: helm uninstall redis -n exercise
 
+# helm install redis bitnami/redis -n exercise -f values.yaml
+# helm install redis bitnami/redis -n atlantis -f values.yaml
+
 # docs: https://github.com/bitnami/charts/tree/main/bitnami/redis
 image:
   tag: 6.2

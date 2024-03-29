@@ -8,11 +8,11 @@ metadata:
   name: argocd-server
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    kubernetes.io/ingress.class: "public"
     kubernetes.io/tls-acme: "true"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
+  ingressClassName: public # use "nginx" if not using microk8s
   rules:
     - host: argocd.bootcamp.onxp.net
       http:

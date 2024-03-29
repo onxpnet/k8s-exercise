@@ -7,11 +7,11 @@ kind: Ingress
 metadata:
   name: kubernetes-dashboard
   annotations:
-    kubernetes.io/ingress.class: public
     cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
+  ingressClassName: public # use "nginx" if not using microk8s
   rules:
     - host: kubernetes-dashboard.bootcamp.onxp.net
       http:

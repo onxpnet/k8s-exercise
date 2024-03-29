@@ -1,0 +1,91 @@
+# kubectl -n atlantis apply -f deployment.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atlantis
+  labels:
+    app: atlantis
+spec:
+  selector:
+    matchLabels:
+      app: atlantis
+  template:
+    metadata:
+      labels:
+        app: atlantis
+    spec:
+      containers:
+        - name: atlantis
+          image: glendmaatita/atlantis:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: atlantis-config
+          volumeMounts:
+          - name: google-json-volume
+            mountPath: /app/google.json
+            subPath: google.json
+          - name: kubeconf-volume
+            mountPath: /root/.kube/config
+            subPath: config
+          - name: atlantis-dir
+            mountPath: /app/atlantis
+          - name: atlantis-kubeconf
+            mountPath: /root/.config/gcloud
+          securityContext:
+            runAsUser: 0
+      volumes:
+      - name: google-json-volume
+        configMap:
+          name: atlantis-gcp-config # from terraform
+      - name: kubeconf-volume 
+        configMap:
+          name: atlantis-kube-config # from terraform
+      - name: atlantis-dir
+        persistentVolumeClaim:
+          claimName: atlantis-dir-pvc
+      - name: atlantis-kubeconf
+        persistentVolumeClaim:
+          claimName: atlantis-kubeconf-pvc
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: atlantis
+  labels:
+    app: atlantis
+spec:
+  selector:
+    app: atlantis
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4141
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: atlantis
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+spec:
+  ingressClassName: public # nginx
+  rules:
+    - host: atlantis.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: atlantis
+                port: 
+                  number: 80
+  tls:
+    - hosts:
+        - atlantis.ops.onxp.net
+      secretName: tls-ops-atlantis

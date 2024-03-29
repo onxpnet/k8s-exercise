@@ -1,0 +1,25 @@
+# kubectl -n vault apply -f ingress.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vault
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+spec:
+  ingressClassName: public # use "nginx" if not using microk8s
+  rules:
+    - host: vault.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: vault
+                port: 
+                  number: 8200
+  tls:
+    - hosts:
+        - vault.ops.onxp.net
+      secretName: tls-secret-ops-vault
