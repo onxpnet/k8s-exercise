@@ -8,8 +8,8 @@
 # kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml
 
 # How to Rollout
-# Rollout per step: kubectl argo rollouts promote own-your-stack -n exercise
-# Rollout full: kubectl argo rollouts promote --full own-your-stack -n exercise
+# Rollout per step: kubectl argo rollouts promote own-your-stack-canary -n exercise
+# Rollout full: kubectl argo rollouts promote --full own-your-stack-canary -n exercise
 
 # kubectl -n exercise apply -f manifest.yaml
 ---
@@ -30,6 +30,7 @@ spec:
         - pause: {}
         - setWeight: 75
         - pause: {}
+        # 100 percent
   selector:
     matchLabels:
       app: own-your-stack-canary

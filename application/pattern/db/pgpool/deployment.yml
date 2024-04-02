@@ -70,6 +70,10 @@ data:
     backend_port1 = 5432
     backend_weight1 = 1
     backend_flag1 = 'DISALLOW_TO_FAILOVER'
+    # backend_hostname1 = '<Slave-2 DB IP>, pgbouncer-master.exercise'
+    # backend_port1 = 5432
+    # backend_weight1 = 1
+    # backend_flag1 = 'DISALLOW_TO_FAILOVER'
     health_check_period = 10
     health_check_user = 'onxp'
     health_check_password = 'onxpsecret'

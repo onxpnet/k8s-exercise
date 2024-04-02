@@ -6,7 +6,9 @@ config:
   adminPassword: onxpsecret
   databases: 
     onxp-production:
-     host: 127.0.0.1
+    # if using CloudSQL Proxy
+    #  host: 127.0.0.1
+     host: "<IP CloudSQL>"
      port: 5433
   pgbouncer: 
     auth_type: md5
