@@ -1,0 +1,50 @@
+# Install CRD & Operator https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-deploy-eck.html
+# kubectl create -f https://download.elastic.co/downloads/eck/2.12.1/crds.yaml
+# kubectl apply -f https://download.elastic.co/downloads/eck/2.12.1/operator.yaml
+# kubectl -n elastic-system apply -f elasticsearch.yaml
+---
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: es-jaeger
+  namespace: elastic-system
+spec:
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
+  version: 8.13.0
+  nodeSets:
+  - name: jaeger
+    count: 1
+    volumeClaimTemplates:
+    - metadata:
+        # Do not change this name unless you set up a volume mount for the data path.
+        name: elasticsearch-data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 500Mi
+        storageClassName: "nfs-client"
+    podTemplate:
+      spec:
+        volumes:
+        - name: es-data
+          persistentVolumeClaim:
+            claimName: elasticsearch-pvc
+        containers:
+        - name: elasticsearch
+          volumeMounts:
+          - name: es-data
+            mountPath: /usr/share/elasticsearch/data
+          resources:
+            requests:
+              cpu: 200m
+              memory: 2500Mi
+            limits:
+              cpu: 2000m
+              memory: 4000Mi
+    config:
+      node.store.allow_mmap: false

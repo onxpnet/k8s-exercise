@@ -1,0 +1,59 @@
+# https://artifacthub.io/packages/helm/jaegertracing/jaeger?modal=values
+
+# helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+# helm install jaeger jaegertracing/jaeger -f jaeger-values.yaml --namespace observability
+---
+provisionDataStore:
+  cassandra: false
+  elasticsearch: false # set to false, use existing elasticsearch
+  kafka: false
+
+storage:
+  type: elasticsearch
+
+  elasticsearch:
+    scheme: http
+    host: es-jaeger-es-internal-http.elastic-system.svc.cluster.local
+    port: 9200
+    anonymous: false
+    user: elastic
+    usePassword: true
+    password: changethis # base64 decode from k8s secret in elastic-system namespace
+
+agent:
+  # optional, because it's deprecated 
+  # https://www.jaegertracing.io/docs/1.55/architecture/#agent
+  enabled: true
+
+# bisa pakai OTEL Collector juga (2 2 nya atau salah satunya)
+collector:
+  enabled: true
+  image:
+    repository: jaegertracing/jaeger-collector
+  service:
+    otlp:
+      grpc:
+        name: otlp-grpc
+        port: 4317
+      http:
+        name: otlp-http
+        port: 4318
+  ingress:
+    enabled: false
+
+query:
+  enabled: true
+  image:
+    repository: jaegertracing/jaeger-query
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-issuer
+    hosts:
+      - jaeger.ops.onxp.net
+    pathType: ImplementationSpecific
+    tls:
+      - secretName: tls-secret-jaeger
+        hosts:
+          - jaeger.ops.onxp.net

@@ -589,10 +589,12 @@ server:
 
   # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
   # used to include variables required for auto-unseal.
-  extraEnvironmentVars: 
-    GOOGLE_REGION: US-CENTRAL1
-    GOOGLE_PROJECT: mashanz-software-engineering
-    GOOGLE_APPLICATION_CREDENTIALS: /vault/userconfig/vault-config/vault-sa.json
+  
+  # onxp: enable this to use with GCP
+  # extraEnvironmentVars: 
+  #   GOOGLE_REGION: US-CENTRAL1
+  #   GOOGLE_PROJECT: mashanz-software-engineering
+  #   GOOGLE_APPLICATION_CREDENTIALS: /vault/userconfig/vault-config/vault-sa.json
 
   # extraSecretEnvironmentVars is a list of extra environment variables to set with the stateful set.
   # These variables take value from existing Secret objects.
@@ -723,6 +725,7 @@ server:
 
     # Configures the service type for the main Vault service.  Can be ClusterIP
     # or NodePort.
+    # onxp: change this to LoadBalancer
     type: NodePort
 
     # The IP family and IP families options are to set the behaviour in a dual-stack environment.
@@ -861,8 +864,14 @@ server:
         #  unauthenticated_metrics_access = "true"
         #}
       }
-      storage "gcs" {
-        bucket = "onxp-vault-bucket"
+
+      # onxp: Enable this to use GCS storage (Recommended for Production)
+      # storage "gcs" {
+      #   bucket = "onxp-vault-bucket"
+      # }
+
+      storage "file" {
+        path = "/vault/data"
       }
 
       # Example configuration for using auto-unseal, using Google Cloud KMS. The

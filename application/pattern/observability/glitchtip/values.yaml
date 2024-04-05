@@ -1,0 +1,70 @@
+# helm repo add glitchtip https://gitlab.com/api/v4/projects/16325141/packages/helm/stable
+# helm install glitchtip glitchtip/glitchtip -f values.yaml -n observability
+---
+image:
+  tag: v3.3.2
+  pullPolicy: IfNotPresent
+
+worker:
+  nodeSelector: 
+    operation: "glitchtip"
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPU: 80
+    targetMemory: 80
+  livenessProbe: {}
+  resources:
+    limits:
+      cpu: 900m
+      memory: 768Mi
+    requests:
+      cpu: 900m
+      memory: 350Mi
+
+
+flower:
+  nodeSelector: 
+    operation: "glitchtip"
+  resources: {}
+
+beat:
+  nodeSelector: 
+    operation: "glitchtip"
+
+web:
+  nodeSelector: 
+    operation: "glitchtip"
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 2
+    targetCPU: 80
+    targetMemory: 80
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations:
+      kubernetes.io/ingress.class: public # using nginx if not using microk8s
+      cert-manager.io/cluster-issuer: letsencrypt-issuer
+    hosts:
+      - host: glitchtip.ops.onxp.net
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: tls-secret-glitchtip
+        hosts:
+          - glitchtip.ops.onxp.net
+
+env:
+  normal:
+    GLITCHTIP_DOMAIN: https://glitchtip.ops.onxp.net
+
+postgresql:
+  enabled: false
+
+redis:
+  enabled: false

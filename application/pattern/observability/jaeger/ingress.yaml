@@ -1,0 +1,25 @@
+# kubectl -n observability apply -f ingress.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ot-collector
+  annotations:
+    kubernetes.io/ingress.class: public # nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+spec:
+  rules:
+    - host: ot-collector.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: jaeger-collector
+                port: 
+                  number: 4318
+  tls:
+    - hosts:
+        - ot-collector.ops.onxp.net
+      secretName: tls-ot-collector-certs
