@@ -1,0 +1,21 @@
+# kubectl -n flux-system apply -f alert.yaml
+# send any notification from flux to Discord
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Alert
+metadata:
+  name: discord
+  namespace: flux-system
+spec:
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+  - kind: Kustomization
+    name: '*'
+  - kind: HelmRelease
+    name: '*'
+  - kind: HelmChart
+    name: '*'
+  - kind: ImageRepository
+    name: '*'

@@ -1,0 +1,11 @@
+# kubectl -n flux-system apply -f notification.yaml
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Provider
+metadata:
+  name: discord
+  namespace: flux-system
+spec:
+  type: discord
+  address: https://discord.com/api/webhooks/1226766442415001620/O_6Ass4Ydnw_lDh53KkLQjifZL8ZhdxD2-iUk2XxdZap7QlwpK1xXPOmMDD_vmsG01r8
+
