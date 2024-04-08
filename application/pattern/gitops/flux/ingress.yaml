@@ -22,4 +22,4 @@ spec:
   tls:
     - hosts:
         - flux.bootcamp.onxp.net
-      secretName: tls-secret-dev-gitops
+      secretName: tls-secret-bootcamp-gitops

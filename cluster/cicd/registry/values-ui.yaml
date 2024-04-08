@@ -1,12 +1,12 @@
-# helm install drone-server ./../../../charts/general -n support -f values-server.yaml
+# helm install registry-ui ./../../../charts/general -n registry -f values-ui.yaml
 
 replicaCount: 1
 
 image:
-  repository: drone/drone
+  repository: joxit/docker-registry-ui
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "2"
+  tag: "main"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -26,7 +26,7 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext:
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -49,14 +49,14 @@ ingress:
     kubernetes.io/ingress.class: public
     cert-manager.io/cluster-issuer: letsencrypt-issuer
   hosts:
-    - host: drone.bootcamp.onxp.net
+    - host: registry-ui.bootcamp.onxp.net
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
-    - secretName: tls-secret-bootcamp-drone
+    - secretName: tls-secret-registry-ui
       hosts:
-        - drone.bootcamp.onxp.net
+        - registry-ui.bootcamp.onxp.net
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -84,27 +84,28 @@ tolerations: []
 affinity: {}
 
 config: 
-  - name: drone-server-config
+  - name: registry-ui-config
     data:
-      - key: DRONE_GITHUB_CLIENT_ID
-        value: <GitHub Client ID>
-      - key: DRONE_GITHUB_CLIENT_SECRET
-        value: <GitHub Client Secret>
-      - key: DRONE_RPC_SECRET
-        value: 9DZb7JyNZ8WPXmMkYpn1orBORATfxRWhEIid9LfO
-      - key: DRONE_SERVER_HOST
-        value: drone.bootcamp.onxp.net
-      - key: DRONE_SERVER_PROTO
-        value: https
-      - key: DRONE_USER_CREATE
-        value: username:glendmaatita,admin:true # change to your github username
-
-pvc:
-  enabled: true
-  config:
-    - name: drone-server
-      accessMode: ReadWriteMany
-      storage:
-        size: 10Gi
-      mount:
-        path: /data
+      - key: SINGLE_REGISTRY
+        value: true
+      - key: REGISTRY_TITLE
+        value: Retro Container Registry
+      - key: DELETE_IMAGES
+        value: true
+      - key: SHOW_CONTENT_DIGEST
+        value: true
+      - key: NGINX_PROXY_PASS_URL
+        value: http://registry-general
+      - key: SHOW_CATALOG_NB_TAGS
+        value: true
+      - key: CATALOG_MIN_BRANCHES
+        value: 1
+      - key: CATALOG_MAX_BRANCHES
+        value: 5
+      - key: TAGLIST_PAGE_SIZE
+        value: 100
+      - key: REGISTRY_SECURED
+        value: true
+      - key: CATALOG_ELEMENTS_LIMIT
+        value: 1000
+  
