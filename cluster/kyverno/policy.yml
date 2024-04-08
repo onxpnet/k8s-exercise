@@ -1,4 +1,5 @@
 # kubectl -n kyverno apply -f policy.yml
+# More docs: https://kyverno.io/docs/writing-policies/
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:

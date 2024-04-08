@@ -1,0 +1,25 @@
+# kubectl -n flux-system apply -f ingress.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ww-gitops-weave-gitops
+  annotations:
+    kubernetes.io/ingress.class: public
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+spec:
+  rules:
+    - host: flux.bootcamp.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: ww-gitops-weave-gitops
+                port: 
+                  number: 9001
+  tls:
+    - hosts:
+        - flux.bootcamp.onxp.net
+      secretName: tls-secret-dev-gitops

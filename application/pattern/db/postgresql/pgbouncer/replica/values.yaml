@@ -1,6 +1,6 @@
 ## PGBouncer Settings
 # helm repo update
-# helm install pgbouncer-master ./../template -n exercise -f values.yaml
+# helm install pgbouncer-master ./../../../../../../charts/pgbouncer -n exercise -f values.yaml
 config:
   adminUser: onxp
   adminPassword: onxpsecret

@@ -12,6 +12,8 @@
 # Rollout full: kubectl argo rollouts promote --full exercise-app-canary -n exercise
 
 # kubectl -n exercise apply -f manifest.yaml
+
+# More docs: https://argoproj.github.io/rollouts/
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout

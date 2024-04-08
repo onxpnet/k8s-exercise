@@ -9,8 +9,6 @@ metadata:
     name: exercise
 
 ---
-
----
 kind: Namespace
 apiVersion: v1
 metadata:
@@ -32,90 +30,17 @@ metadata:
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: exercise-staging
+  name: glitchtip
   labels:
-    name: exercise-staging
+    name: glitchtip
 
 ---
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: exercise-production
+  name: elastic-system
   labels:
-    name: exercise-production
-
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: exercise-kel1
-  labels:
-    name: exercise-kel1
-
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: exercise-kel1-staging
-  labels:
-    name: exercise-kel1-staging
-
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: exercise-kel1-production
-  labels:
-    name: exercise-kel1-production
-
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: exercise-kel2
-  labels:
-    name: exercise-kel2
-
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: exercise-kel2-staging
-  labels:
-    name: exercise-kel2-staging
-
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: exercise-kel2-production
-  labels:
-    name: exercise-kel2-production
-
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: exercise-kel3
-  labels:
-    name: exercise-kel3
-
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: exercise-kel3-staging
-  labels:
-    name: exercise-kel3-staging
-
----
-
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: exercise-kel3-production
-  labels:
-    name: exercise-kel3-production
+    name: elastic-system
 
 ---
 
@@ -125,5 +50,50 @@ metadata:
   name: argocd
   labels:
     name: argocd
+    
+---
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: observability
+  labels:
+    name: observability
+    
+---
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: kyverno
+  labels:
+    name: kyverno
+    
+---
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: drone
+  labels:
+    name: drone
+    
+---
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: argocd
+  labels:
+    name: argocd
+    
+---
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: argo-rollouts
+  labels:
+    name: argo-rollouts
     
 ---

@@ -1,3 +1,5 @@
+# More docs: https://fluxcd.io/
+
 # need github token. For this example, we use personal access token
 export GITHUB_TOKEN=<gh-token>
 

@@ -1,0 +1,110 @@
+# helm install drone-server ./../../../charts/general -n support -f values-server.yaml
+
+replicaCount: 1
+
+image:
+  repository: drone/drone
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "2"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext:
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+probe:
+  enabled: true
+  
+service:
+  type: ClusterIP
+  port: 80
+  containerPort: 80
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    kubernetes.io/ingress.class: public
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  hosts:
+    - host: drone.bootcamp.onxp.net
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: tls-secret-dev-drone
+      hosts:
+        - drone.bootcamp.onxp.net
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+config: 
+  - name: drone-server-config
+    data:
+      - key: DRONE_GITHUB_CLIENT_ID
+        value: <GitHub Client ID>
+      - key: DRONE_GITHUB_CLIENT_SECRET
+        value: <GitHub Client Secret>
+      - key: DRONE_RPC_SECRET
+        value: 9DZb7JyNZ8WPXmMkYpn1orBORATfxRWhEIid9LfO
+      - key: DRONE_SERVER_HOST
+        value: drone.bootcamp.onxp.net
+      - key: DRONE_SERVER_PROTO
+        value: https
+      - key: DRONE_USER_CREATE
+        value: username:glendmaatita,admin:true # change to your github username
+
+pvc:
+  enabled: true
+  config:
+    - name: drone-server
+      accessMode: ReadWriteMany
+      storage:
+        size: 10Gi
+      mount:
+        path: /data

@@ -1,5 +1,6 @@
 # kubectl -n exercise apply -f deployment.yaml
 # locust --headless --users 1000000 --spawn-rate 1000 -H http://exercise-app.exercise
+# More docs: https://locust.io/
 ---
 
 apiVersion: apps/v1
