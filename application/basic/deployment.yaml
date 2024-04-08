@@ -3,15 +3,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: own-your-stack
+  name: exercise-app
   labels:
-    app: own-your-stack
+    app: exercise-app
 spec:
   # comment if using HPA
   replicas: 1
   selector:
     matchLabels:
-      app: own-your-stack
+      app: exercise-app
 
   # strategy:
   #   type: RollingUpdate
@@ -21,7 +21,7 @@ spec:
   template:
     metadata:
       labels:
-        app: own-your-stack
+        app: exercise-app
     spec:
       # initContainers:
       #   - name: init-curl
@@ -41,8 +41,8 @@ spec:
       #   operation: onxp-alt-pool
 
       containers:
-        - name: own-your-stack
-          image: glendmaatita/own-your-stack:v1.0.0
+        - name: exercise-app
+          image: glendmaatita/exercise-app:v1.0.0
           imagePullPolicy: Always
           resources:
             requests:
@@ -55,18 +55,18 @@ spec:
           # env
           env:
           - name: APP_URL
-            value: https://own-your-stack.bootcamp.onxp.net
+            value: https://exercise-app.bootcamp.onxp.net
           - name: APP_KEY
             value: randomlongstring
           # - name: MY_APP_NAME
           #   valueFrom:
           #     configMapKeyRef:
-          #       name: own-your-stack-cm
+          #       name: exercise-app-cm
           #       key: APP_NAME
           # - name: MY_DB_USERNAME
           #   valueFrom:
           #     secretKeyRef:
-          #       name: own-your-stack-secret
+          #       name: exercise-app-secret
           #       key: DB_USERNAME
           
           # health-check
@@ -91,9 +91,9 @@ spec:
             
           # envFrom:
           #   - configMapRef:
-          #       name: own-your-stack-cm
+          #       name: exercise-app-cm
           #   - secretRef:
-          #       name: own-your-stack-secret
+          #       name: exercise-app-secret
 
           # volumeMounts:
           # - name: app-config-volume

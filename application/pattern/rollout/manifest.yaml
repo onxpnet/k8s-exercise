@@ -8,17 +8,17 @@
 # kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml
 
 # How to Rollout
-# Rollout per step: kubectl argo rollouts promote own-your-stack-canary -n exercise
-# Rollout full: kubectl argo rollouts promote --full own-your-stack-canary -n exercise
+# Rollout per step: kubectl argo rollouts promote exercise-app-canary -n exercise
+# Rollout full: kubectl argo rollouts promote --full exercise-app-canary -n exercise
 
 # kubectl -n exercise apply -f manifest.yaml
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: own-your-stack-canary
+  name: exercise-app-canary
   labels:
-    app: own-your-stack-canary
+    app: exercise-app-canary
 spec:
   replicas: 4
   strategy:
@@ -33,15 +33,15 @@ spec:
         # 100 percent
   selector:
     matchLabels:
-      app: own-your-stack-canary
+      app: exercise-app-canary
   template:
     metadata:
       labels:
-        app: own-your-stack-canary
+        app: exercise-app-canary
     spec:
       containers:
-        - name: own-your-stack-canary
-          image: glendmaatita/own-your-stack:v1.0.0
+        - name: exercise-app-canary
+          image: glendmaatita/exercise-app:v1.0.0
           imagePullPolicy: Always
           resources:
             requests:
@@ -58,12 +58,12 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: own-your-stack-canary
+  name: exercise-app-canary
 spec:
   scaleTargetRef:
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
-    name: own-your-stack-canary
+    name: exercise-app-canary
   minReplicas: 1
   maxReplicas: 5
   metrics:

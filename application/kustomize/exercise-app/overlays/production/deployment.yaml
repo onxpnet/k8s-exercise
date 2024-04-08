@@ -1,0 +1,15 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exercise-app
+spec:
+  selector:
+    matchLabels:
+      app: exercise-app
+  template:
+    spec:
+      containers:
+        - image: glendmaatita/exercise-app:v1.0.0
+          name: exercise-app
+---

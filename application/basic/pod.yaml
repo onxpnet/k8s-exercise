@@ -3,13 +3,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: own-your-stack
+  name: exercise-app
   labels:
-    app: own-your-stack
+    app: exercise-app
 spec:
   containers:
-    - name: own-your-stack
-      image: glendmaatita/own-your-stack
+    - name: exercise-app
+      image: glendmaatita/exercise-app
       ports:
         - containerPort: 3000
 

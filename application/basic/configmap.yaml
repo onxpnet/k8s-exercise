@@ -3,9 +3,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: own-your-stack-cm
+  name: exercise-app-cm
 data:
-  APP_NAME: "Own Your Stack"
+  APP_NAME: "Exercise App"
   AUTHOR: "OnXP"
 ---
 

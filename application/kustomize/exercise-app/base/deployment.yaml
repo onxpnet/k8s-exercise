@@ -2,21 +2,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: own-your-stack
+  name: exercise-app
   labels:
-    app: own-your-stack
+    app: exercise-app
 spec:
   selector:
     matchLabels:
-      app: own-your-stack
+      app: exercise-app
   template:
     metadata:
       labels:
-        app: own-your-stack
+        app: exercise-app
     spec:
       containers:
-        - name: own-your-stack
-          image: glendmaatita/own-your-stack:latest
+        - name: exercise-app
+          image: glendmaatita/exercise-app:latest
           imagePullPolicy: Always
           resources:
             requests:
@@ -33,7 +33,7 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: argocd-sync-oys-succeeded
+  name: argocd-sync-ea-succeeded
   annotations:
     argocd.argoproj.io/hook: PostSync
 spec:
@@ -53,7 +53,7 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: argocd-sync-oys-failed
+  name: argocd-sync-ea-failed
   annotations:
     argocd.argoproj.io/hook: SyncFail
 spec:
@@ -73,7 +73,7 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: argocd-sync-oys-prepare
+  name: argocd-sync-ea-prepare
   annotations:
     argocd.argoproj.io/hook: PreSync
     argocd.argoproj.io/hook-delete-policy: HookSucceeded

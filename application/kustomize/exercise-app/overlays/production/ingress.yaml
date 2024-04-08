@@ -2,22 +2,22 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: own-your-stack
+  name: exercise-app
 spec:
   ingressClassName: public # use "nginx" if not using microk8s
   rules:
-    - host: own-your-stack-prod.bootcamp.onxp.net
+    - host: exercise-app-prod.bootcamp.onxp.net
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: own-your-stack
+                name: exercise-app
                 port:
                   number: 80
   tls:
     - hosts:
-        - own-your-stack-prod.bootcamp.onxp.net
-      secretName: tls-secret-bootcamp-own-your-stack
+        - exercise-app-prod.bootcamp.onxp.net
+      secretName: tls-secret-bootcamp-exercise-app
 ---

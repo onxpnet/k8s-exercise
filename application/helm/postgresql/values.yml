@@ -36,4 +36,4 @@ volumePermissions:
 
 initdbScripts:
   init_db.sql: |
-    CREATE DATABASE own-your-stack;
+    CREATE DATABASE exercise-app;
