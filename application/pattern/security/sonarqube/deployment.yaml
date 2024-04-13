@@ -1,0 +1,91 @@
+# kubectl -n security-tools apply -f deployment.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarqube
+  labels:
+    app: sonarqube
+spec:
+  selector:
+    matchLabels:
+      app: sonarqube
+  template:
+    metadata:
+      labels:
+        app: sonarqube
+    spec:
+      containers:
+        - name: sonarqube
+          image: sonarqube:9.9.2-community
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: sonarqube-config
+          volumeMounts:
+            - name: sonarqube-data
+              mountPath: /opt/sonarqube/data
+            - name: sonarqube-extension
+              mountPath: /opt/sonarqube/extensions
+            - name: sonarqube-logs
+              mountPath: /opt/sonarqube/logs
+      volumes:
+        - name: sonarqube-data
+          persistentVolumeClaim:
+            claimName: sonarqube-data-pvc
+        - name: sonarqube-extension
+          persistentVolumeClaim:
+            claimName: sonarqube-extension-pvc
+        - name: sonarqube-logs
+          persistentVolumeClaim:
+            claimName: sonarqube-logs-pvc
+          
+--- 
+kind: ConfigMap
+metadata: 
+  name: sonarqube-config
+apiVersion: v1
+data: 
+  SONAR_JDBC_URL: "jdbc:postgresql://pgpool:5432/sonarqube"
+  SONAR_JDBC_USERNAME: "onxp"
+  SONAR_JDBC_PASSWORD: "onxpsecret"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarqube
+  labels:
+    app: sonarqube
+spec:
+  selector:
+    app: sonarqube
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sonarqube
+  annotations:
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+spec:
+  rules:
+    - host: sonarqube.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: sonarqube
+                port: 
+                  number: 80
+  tls:
+    - hosts:
+        - sonarqube.ops.onxp.net
+      secretName: tls-ops-sonarqube

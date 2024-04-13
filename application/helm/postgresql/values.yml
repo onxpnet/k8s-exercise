@@ -37,3 +37,4 @@ volumePermissions:
 initdbScripts:
   init_db.sql: |
     CREATE DATABASE exercise-app;
+    CREATE DATABASE sonarqube;
