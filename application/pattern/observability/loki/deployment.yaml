@@ -1,0 +1,32 @@
+# kubectl -n observability apply -f deployment.yaml
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loki
+  labels:
+    app: loki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loki
+  template:
+    metadata:
+      labels:
+        app: loki
+    spec:
+      containers:
+        - name: loki
+          image: grafana/loki:latest
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: loki-volume
+            mountPath: /usr/local/bin/loki/data
+      volumes:
+        - name: loki-volume
+          persistentVolumeClaim:
+            claimName: hostpath-loki-pvc
+
+---
