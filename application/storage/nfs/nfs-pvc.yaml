@@ -6,6 +6,10 @@ metadata:
   name: nfs-pvc-exercise
 spec:
   accessModes:
+    # ReadWriteOnce: can only be mounted in a single node. Can read + write
+    # ReadOnlyMany: can be mounted in multiple nodes. Can only read
+    # ReadWriteMany: can be mounted in multiple nodes. Can read + write
+    # ReadWriteOncePod: can only be mounted in a single pod. Can read + write
     - ReadWriteMany
   storageClassName: ""
   resources:
