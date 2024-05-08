@@ -1,4 +1,4 @@
-# kubectl -n security-tools apply -f sonarqube-pvc.yaml
+# kubectl -n security-tools apply -f pvc.yaml
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1

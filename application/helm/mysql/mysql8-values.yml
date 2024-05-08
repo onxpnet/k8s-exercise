@@ -1,0 +1,46 @@
+# helm install mysql8 -f mysql8-values.yml bitnami/mysql -n database
+# expose port 3306 for development
+# kubectl -n ingress edit configmap nginx-ingress-tcp-microk8s-conf
+# data:
+#   '3306': mysql/mysql:3306
+
+# how to publicly open mysql port using microk8s
+# kubectl -n ingress edit daemonset nginx-ingress-microk8s-controller
+# 
+#  template:
+#     metadata:
+#       creationTimestamp: null
+#   labels:
+#     name: nginx-ingress-microk8s
+#     spec:
+#     containers:
+#       ports:
+#         - name: mysql
+#           containerPort: 3306
+#           hostPort: 3306
+#           protocol: TCP
+
+# We don't want to always use root user, instead we will use onxp,
+# So we need to grant proper access to user onxp
+# GRANT ALL PRIVILEGES ON *.* TO 'onxp'@'%' WITH GRANT OPTION;
+image:
+  tag: 8.1
+
+auth:
+  rootPassword: onxpsecret
+  database: "example_db"
+  username: "onxp"
+  password: "onxpsecret"
+
+# example using existing PVC
+primary:
+  persistence:
+    enabled: true
+    existingClaim: "mysql8-pvc"
+
+volumePermissions:
+  enabled: true
+
+initdbScripts:
+  init_db.sql: |
+    CREATE DATABASE example_db;

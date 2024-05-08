@@ -1,5 +1,5 @@
 # helm repo add bitnami https://charts.bitnami.com/bitnami
-# helm install postgresql -f values.yml bitnami/postgresql -n exercise
+# helm install postgresql -f values.yml bitnami/postgresql -n database
 
 # docs: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
 # connect to Replica
@@ -36,5 +36,5 @@ volumePermissions:
 
 initdbScripts:
   init_db.sql: |
-    CREATE DATABASE exercise-app;
+    CREATE DATABASE exercise_app;
     CREATE DATABASE sonarqube;

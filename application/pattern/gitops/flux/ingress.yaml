@@ -5,9 +5,9 @@ kind: Ingress
 metadata:
   name: ww-gitops-weave-gitops
   annotations:
-    kubernetes.io/ingress.class: public
     cert-manager.io/cluster-issuer: letsencrypt-issuer
 spec:
+  ingressClassName: public
   rules:
     - host: flux.bootcamp.onxp.net
       http:

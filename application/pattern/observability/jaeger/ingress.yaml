@@ -5,9 +5,9 @@ kind: Ingress
 metadata:
   name: ot-collector
   annotations:
-    kubernetes.io/ingress.class: public # nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
 spec:
+  ingressClassName: public
   rules:
     - host: ot-collector.ops.onxp.net
       http:

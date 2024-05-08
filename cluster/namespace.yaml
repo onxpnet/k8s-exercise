@@ -21,6 +21,15 @@ metadata:
 kind: Namespace
 apiVersion: v1
 metadata:
+  name: security-tools
+  labels:
+    name: security-tools
+
+---
+
+kind: Namespace
+apiVersion: v1
+metadata:
   name: atlantis
   labels:
     name: atlantis
@@ -113,5 +122,14 @@ metadata:
   name: ingress-nginx
   labels:
     name: ingress-nginx
+    
+---
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: database
+  labels:
+    name: database
     
 ---

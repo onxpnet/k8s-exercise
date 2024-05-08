@@ -1,4 +1,4 @@
-# kubectl -n exercise apply -f deployment.yml
+# kubectl -n database apply -f deployment.yml
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -62,11 +62,11 @@ data:
     pcp_listen_addresses = '*'
     pcp_port = 9898
     pcp_socket_dir = '/var/run/pgpool'
-    backend_hostname0 = '<Master DB IP>'
+    backend_hostname0 = 'postgresql-primary.database'
     backend_port0 = 5432
     backend_weight0 = 0
     backend_flag0 = 'ALWAYS_PRIMARY|DISALLOW_TO_FAILOVER'
-    backend_hostname1 = '<Slave-1 DB IP>'
+    backend_hostname1 = 'postgresql-onxp-postgresql-read-replica.database'
     backend_port1 = 5432
     backend_weight1 = 1
     backend_flag1 = 'DISALLOW_TO_FAILOVER'
@@ -77,7 +77,7 @@ data:
     health_check_period = 10
     health_check_user = 'onxp'
     health_check_password = 'onxpsecret'
-    health_check_database = 'onxp-production'
+    health_check_database = 'example_db'
     master_slave_mode = on
     backend_clustering_mode = 'streaming_replication'
     num_init_children = 5000
@@ -95,7 +95,7 @@ data:
     sr_check_period = 10
     sr_check_user = 'onxp'
     sr_check_password = 'onxpsecret'
-    sr_check_database = 'onxp-production'
+    sr_check_database = 'example_db'
     log_destination = 'stderr'
     black_function_list = 'nextval,setval,lastval,currval'
     statement_level_load_balance = on

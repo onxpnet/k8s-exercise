@@ -1,0 +1,9 @@
+# kubectl -n mysql apply -f mysql8-volume.yml
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql8-pvc
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: { requests: { storage: 10Gi } }
