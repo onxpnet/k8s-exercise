@@ -1,5 +1,6 @@
 # kubectl -n observability apply -f deployment.yaml
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -7,6 +8,7 @@ metadata:
   labels:
     app: prometheus
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: prometheus
@@ -20,22 +22,23 @@ spec:
           image: prom/prometheus:latest
           imagePullPolicy: Always
           volumeMounts:
-            - name: prometheus-config-volume
-              mountPath: /prometheus-data/prometheus.yml
-              subPath: prometheus.yml
+          - name: prometheus-config-volume
+            mountPath: /etc/prometheus/prometheus.yml
+            subPath: prometheus.yml
           command:
-            - --config.file=/prometheus-data/prometheus.yml
+            - --config.file=/etc/prometheus/prometheus.yml
       volumes:
-      - name: prometheus-config-volume
-        configMap:
-          name: prometheus-config
-          
---- 
-kind: ConfigMap
-metadata: 
-  name: prometheus-config
+        - name: prometheus-config-volume
+          configMap:
+            name: prometheus-config
+
+---
+
 apiVersion: v1
-data: 
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
   prometheus.yml: |
     scrape_configs:
     - job_name: 'prometheus'
@@ -46,43 +49,3 @@ data:
           labels:
             service: 'exercise-app'
             group: 'exercise'
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: prometheus
-  labels:
-    app: prometheus
-spec:
-  selector:
-    app: prometheus
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 9090
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: prometheus
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 100m
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
-spec:
-  ingressClassName: public
-  rules:
-    - host: prometheus.ops.onxp.net
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service: 
-                name: prometheus
-                port: 
-                  number: 80
-  tls:
-    - hosts:
-        - prometheus.ops.onxp.net
-      secretName: tls-ops-prometheus
