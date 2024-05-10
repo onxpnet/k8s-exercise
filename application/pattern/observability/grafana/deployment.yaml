@@ -38,6 +38,22 @@ spec:
 ---
 
 apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  selector:
+    app: grafana
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+
+---
+
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: datasource-config
@@ -54,3 +70,29 @@ data:
         type: loki
         url: http://loki:3100
         access: proxy
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+spec:
+  ingressClassName: public
+  rules:
+    - host: grafana.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: grafana
+                port: 
+                  number: 80
+  tls:
+    - hosts:
+        - grafana.ops.onxp.net
+      secretName: tls-ops-grafana

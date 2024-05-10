@@ -50,19 +50,19 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header Origin https://registry.bootcamp.onxp.net;
+      proxy_set_header Origin https://registry.ops.onxp.net;
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
   hosts:
-    - host: registry.bootcamp.onxp.net
+    - host: registry.ops.onxp.net
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
-    - secretName: tls-secret-bootcamp-registry
+    - secretName: tls-secret-ops-registry
       hosts:
-        - registry.bootcamp.onxp.net
+        - registry.ops.onxp.net
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -103,7 +103,7 @@ config:
   - name: registry-htpasswd
     data:
       - key: passwd
-        value: "onxpnet:$apr1$TEDYVbWS$Zo6sdBqEQgvR5s0djMzIS0"
+        value: "onxpnet:$2y$05$EuOnhMoY5.OFxchH7Kd1F.dlT10OddPdtEkqGYCTujoTBS0QmNyY."
 
 pvc:
   enabled: true

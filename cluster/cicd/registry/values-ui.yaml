@@ -49,14 +49,14 @@ ingress:
     kubernetes.io/ingress.class: public
     cert-manager.io/cluster-issuer: letsencrypt-issuer
   hosts:
-    - host: registry-ui.bootcamp.onxp.net
+    - host: registry-ui.ops.onxp.net
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     - secretName: tls-secret-registry-ui
       hosts:
-        - registry-ui.bootcamp.onxp.net
+        - registry-ui.ops.onxp.net
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -89,7 +89,7 @@ config:
       - key: SINGLE_REGISTRY
         value: true
       - key: REGISTRY_TITLE
-        value: Retro Container Registry
+        value: OnXP Container Registry
       - key: DELETE_IMAGES
         value: true
       - key: SHOW_CONTENT_DIGEST
