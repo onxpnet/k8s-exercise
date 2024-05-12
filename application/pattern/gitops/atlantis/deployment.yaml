@@ -39,10 +39,10 @@ spec:
       volumes:
       - name: google-json-volume
         configMap:
-          name: atlantis-gcp-config # from terraform
+          name: atlantis-gcp-config # for safety, get it from terraform
       - name: kubeconf-volume 
         configMap:
-          name: atlantis-kube-config # from terraform
+          name: atlantis-kube-config # for safety, get it from terraform
       - name: atlantis-dir
         persistentVolumeClaim:
           claimName: atlantis-dir-pvc
@@ -50,6 +50,39 @@ spec:
         persistentVolumeClaim:
           claimName: atlantis-kubeconf-pvc
 --- 
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: atlantis-gcp-config
+data:
+  ATLANTIS_ALLOW_COMMANDS: "version,plan,apply,unlock"
+  ATLANTIS_ALLOW_FORK_PRS: "true"
+  ATLANTIS_API_SECRET: onxpsecret
+  ATLANTIS_ATLANTIS_URL: "https://atlantis.bootcamp.onxp.net"
+  ATLANTIS_GH_TOKEN: onxpsecret
+  ATLANTIS_GH_USER: onxp
+  ATLANTIS_GH_WEBHOOK_SECRET: onxpsecret
+  ATLANTIS_REDIS_HOST: "redis-master"
+  ATLANTIS_REPO_ALLOWLIST: "github.com/onxp/terraform-exercise"
+  ATLANTIS_WEB_BASIC_AUTH: "true"
+  ATLANTIS_WEB_USERNAME: onxp
+  ATLANTIS_WEB_PASSWORD: onxpsecret
+  ATLANTIS_PORT: "4141"
+  ATLANTIS_DATA_DIR: "/app/atlantis"
+  VAULT_TOKEN: onxpsecret
+  GOOGLE_APPLICATION_CREDENTIALS: "/app/google.json"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: atlantis-kube-config
+data:
+  google.json:  <base 64 kube.conf>
+  
+---
 
 apiVersion: v1
 kind: Service
