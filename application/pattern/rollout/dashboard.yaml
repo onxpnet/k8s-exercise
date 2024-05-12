@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: public
   rules:
-    - host: argo-rollouts-dashboard.bootcamp.onxp.net
+    - host: argo-rollouts-dashboard.ops.onxp.net
       http:
         paths:
           - path: /
@@ -22,5 +22,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - argo-rollouts-dashboard.bootcamp.onxp.net
+        - argo-rollouts-dashboard.ops.onxp.net
       secretName: tls-argo-rollouts-dashboard-secret

@@ -16,7 +16,7 @@ metadata:
 spec:
   ingressClassName: public # use "nginx" if not using microk8s
   rules:
-    - host: argocd.bootcamp.onxp.net
+    - host: argocd.ops.onxp.net
       http:
         paths:
           - path: /
@@ -28,5 +28,5 @@ spec:
                   name: https
   tls:
   - hosts:
-    - argocd.bootcamp.onxp.net
+    - argocd.ops.onxp.net
     secretName: argocd-secret # do not change, this is provided by Argo CD
