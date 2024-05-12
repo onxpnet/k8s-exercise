@@ -1,0 +1,27 @@
+# kubectl -n exercise apply -f ingress.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: odoo
+  labels:
+    app: odoo
+  annotations:
+    kubernetes.io/ingress.class: public
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+spec:
+  rules:
+    - host: odoo.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: odoo
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - odoo.ops.onxp.net
+      secretName: tls-odoo
