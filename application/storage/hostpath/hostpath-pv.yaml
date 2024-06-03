@@ -4,6 +4,8 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: hostpath-exercise-pv
+
+  # to match with PVC
   labels:
     type: hostpath-exercise
 spec:

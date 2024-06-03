@@ -11,6 +11,7 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: ""
+  # match with PV
   selector:
     matchLabels:
       type: hostpath-exercise
