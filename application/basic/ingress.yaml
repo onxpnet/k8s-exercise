@@ -5,6 +5,7 @@ kind: Ingress
 metadata:
   name: exercise-app
   annotations:
+    # ingress can provide SSL
     cert-manager.io/cluster-issuer: letsencrypt-issuer
 
     # https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/basic-configuration/
@@ -26,9 +27,9 @@ spec:
             pathType: Prefix # can be ImplementationSpecific, Exact
             backend:
               service:
-                name: exercise-app
+                name: exercise-app # must be in same namespace
                 port:
-                  number: 80
+                  number: 80 # port of service
           # - path: /blog
           #   pathType: Prefix
           #   backend:
@@ -38,5 +39,5 @@ spec:
           #         number: 80
   tls:
     - hosts:
-        - exercise-app.bootcamp.onxp.net
+        - exercise.bootcamp.onxp.net
       secretName: tls-bootcamp-exercise-app

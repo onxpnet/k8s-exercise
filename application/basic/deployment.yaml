@@ -8,7 +8,7 @@ metadata:
     app: exercise-app
 spec:
   # comment if using HPA
-  replicas: 1
+  # replicas: 1
 
   # !IMPORTANT! labels selector for Service
   selector:
@@ -124,13 +124,13 @@ spec:
           # - BestEffort: lowest priority, killed first. do not have any resource requests or limits.
           resources:
             requests:
-              memory: 20Mi
-              cpu: 20m
+              memory: 100Mi
+              cpu: 100m
               # ephemeral-storage: 2Gi # request for pod's storage
               # hugepages-2Mi: 100Mi # hugepage enable k8s to manage memory in large chuks
 
             limits:
-              memory: 70Mi
+              memory: 100Mi
               cpu: 100m  
           
           # env
