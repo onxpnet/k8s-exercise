@@ -9,10 +9,13 @@ metadata:
 spec:
   # comment if using HPA
   replicas: 1
+
+  # !IMPORTANT! labels selector for Service
   selector:
     matchLabels:
       app: exercise-app
 
+  # Define how we update version of app
   # strategy:
   #   type: RollingUpdate
   #   rollingUpdate:
@@ -112,7 +115,7 @@ spec:
       containers:
         - name: exercise-app
           image: glendmaatita/exercise-app:v1.0.0
-          imagePullPolicy: Always
+          imagePullPolicy: Always # or IfNotPresent
 
           # resources profile
           # Types of Quality of Service (QoS):
@@ -148,6 +151,10 @@ spec:
           #       key: DB_USERNAME
           
           # health-check
+
+          # readinessProbe: check if container is ready to serve traffic
+          # biasanya endpoint yang digunakan adalah /health
+          # { "success": "ok"}
           readinessProbe:
             httpGet:
               path: /
@@ -157,6 +164,7 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 30
             timeoutSeconds: 1
+          # check if container is alive
           livenessProbe:
             httpGet:
               path: /
@@ -223,8 +231,7 @@ spec:
       #   configMap:
       #     name: app-config
 
-
-      # using storage with hostpath
+      # # using storage with hostpath
       # - name: hostpath-volume-exercise
       #   persistentVolumeClaim:
       #     claimName: hostpath-exercise-pvc
