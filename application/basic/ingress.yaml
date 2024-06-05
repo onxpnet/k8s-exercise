@@ -20,6 +20,9 @@ spec:
       http:
         paths:
           - path: /
+            # Prefix: /foo matches /foo and /foo/bar
+            # Exact: /foo matches /foo and nothing else
+            # ImplementationSpecific: the path type is up to the IngressClass
             pathType: Prefix # can be ImplementationSpecific, Exact
             backend:
               service:
