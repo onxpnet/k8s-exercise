@@ -1,4 +1,4 @@
-# helm install drone-server ./../../../charts/general -n support -f values-server.yaml
+# helm install drone-server ./../../../charts/general -n support -f values-server.yaml --timeout 10m0s
 
 replicaCount: 1
 

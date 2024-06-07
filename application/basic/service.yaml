@@ -9,6 +9,7 @@ metadata:
 spec:
   selector:
     app: exercise-app
+  type: ClusterIP # default, can be NodePort, LoadBalancer, ExternalName
   ports:
     - protocol: TCP
       port: 80 # port of service
