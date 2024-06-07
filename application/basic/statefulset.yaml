@@ -1,6 +1,6 @@
 # kubectl -n exercise apply -f statefulset.yaml
-# mongosh --host mongo.exercise
-# mongosh --host mongo-0.mongo
+# connect via service: mongosh --host mongo.exercise
+# connect directly to pod: mongosh --host mongo-0.mongo
 ---
 apiVersion: apps/v1
 kind: StatefulSet

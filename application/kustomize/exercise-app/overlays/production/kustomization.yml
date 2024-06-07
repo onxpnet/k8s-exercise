@@ -1,8 +1,8 @@
 kind: Kustomization
 resources:
   - ../../base
-  # use it when you don't want to separate resources
 patches:
+  # use it when you don't want to separate resources
   # - manifests.yml
   - path: deployment.yaml
   - path: ingress.yaml
