@@ -10,6 +10,6 @@ spec:
   template:
     spec:
       containers:
-        - image: glendmaatita/exercise-app:v1.0.0
+        - image: glendmaatita/exercise-app:v1.0.1
           name: exercise-app
 ---
