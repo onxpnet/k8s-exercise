@@ -1,0 +1,27 @@
+# kubectl -n observability apply -f volume.yaml
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pv-vpn
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: nfs-server-vpn.observability.svc.cluster.local
+    path: "/"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nfs-pvc-vpn
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 1Gi

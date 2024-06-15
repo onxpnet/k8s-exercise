@@ -1,0 +1,298 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: boundary-config
+  labels:
+    {{- include "boundary-chart.labels" . | nindent 4 }}
+  {{- with .Values.serviceAccount.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  creationTimestamp: null
+data:
+  boundary-config-admin.hcl: |
+    disable_mlock = true
+    log_format    = "standard"
+    controller {
+      name        = "kubernetes-controller"
+      description = "Boundary controller"
+      database {
+      {{- if .Values.vault.enabled }}
+        url = "file:///vault/secrets/database-creds-admin.txt"
+      {{- else }}
+        url = "postgresql://{{.Values.database.username}}:{{.Values.database.password}}@{{ .Values.database.url }}:{{ .Values.database.port}}/{{.Values.database.dbName}}{{- if ne .Values.database.ssl true }}?sslmode=disable{{- end }}"
+      {{- end }}
+      }
+      public_cluster_addr = "localhost"
+    }
+    worker {
+      name        = "kubernetes-worker"
+      description = "Boundary worker"
+      address     = "localhost"
+      controllers = ["localhost"]
+      public_addr = "{{ .Values.publicAddress }}:{{ .Values.publicPort }}"
+    }
+    listener "tcp" {
+      address     = "0.0.0.0"
+      purpose     = "api"
+      tls_disable = true
+    }
+    listener "tcp" {
+      address     = "0.0.0.0"
+      purpose     = "cluster"
+      tls_disable = true
+    }
+    listener "tcp" {
+      address     = "0.0.0.0"
+      purpose     = "proxy"
+      tls_disable = true
+    }
+    {{- if .Values.events.enabled }}
+    events {
+      audit_enabled = {{ .Values.events.audit }}
+      observations_enabled = {{ .Values.events.observations }}
+      sysevents_enabled = {{ .Values.events.sysevents }}
+      {{- range $sink := .Values.events.sink }}
+      sink {
+        type = {{ $sink.type | default "stderr" | quote }}
+        name = {{ $sink.name | quote }}
+        description = {{ $sink.description | quote  }}
+        event_types = {{ $sink.event_types }}
+        {{- if (and (hasKey $sink "event_source_url")) }}
+        event_source_url = {{ $sink.event_source_url }}
+        {{- end }}
+        {{- if (eq $sink.type "file") }}
+        file {
+            {{- range $k, $v := $sink.file }}
+            {{ $k }} = {{ $v | quote }}
+            {{- end }}
+        }
+        {{- end }}
+        {{- if (and (hasKey $sink "allow_filters")) }}
+        allow_filters = [
+          {{- range $filter := $sink.allow_filters }}
+          {{ $filter | quote }},
+          {{- end }}
+        ]
+        {{- end }}
+        {{- if (and (hasKey $sink "deny_filters")) }}
+        deny_filters = [
+          {{- range $filter := $sink.deny_filters }}
+          {{ $filter | quote }},
+          {{- end }}
+        ]
+        {{- end }}
+        format = {{ $sink.format | default "hclog-json" | quote }}
+        {{- if (and (hasKey $sink "audit_filter_overrides")) }}
+        audit_config {
+          audit_filter_overrides {
+            {{- range $k, $v := $sink.audit_filter_overrides }}
+            {{ $k }} = {{ $v | quote }}
+            {{- end }}
+          }
+        }
+        {{- end }}
+      }
+      {{- end }}
+      {{- if and (eq (.Values.events.enabled | toString) "true" ) (eq (len .Values.events.sink) 0 ) }}
+      sink {
+        name = "default"
+        type = "stderr"
+        description = "All events sent to stderr (default sink)"
+        event_types = ["*"]
+        format = "hclog-json"
+      }
+      {{- end }}
+    }
+    {{- end }}
+
+    {{- if .Values.vault.enabled }}
+    {{- $fqdn := .Values.vault.fqdn }}
+    {{- $mountPath := .Values.vault.mountPath }}
+    {{- $tlsSkip := .Values.vault.tlsSkipVerify }}
+    {{- range $i, $purpose := list "root" "recovery" "worker-auth" }}
+    kms "transit" {
+      purpose         = "{{ $purpose }}"
+      address         = "{{ $fqdn }}"
+      disable_renewal = false
+
+      key_name   = "{{ $purpose }}"
+      mount_path = "{{ $mountPath }}"
+      {{- if $tlsSkip }}
+      tls_skip_verify = true
+      {{- end }}
+    }
+    {{- end }}
+    {{- end }}
+
+    {{- if .Values.aead.enabled }}
+    {{- range $purpose, $key := .Values.aead.keys }}
+    kms "aead" {
+      purpose = "{{ $purpose }}"
+      key_id = "global_{{ $purpose }}"
+      aead_type = "aes-gcm"
+      key = "{{ $key }}"
+    }
+    {{- end }}
+    {{- end }}
+
+    {{- if .Values.gcpckms.enabled }}
+    {{- range $i, $purpose := list "root" "recovery" "worker-auth" }}
+    kms "gcpckms" {
+      purpose = "{{ $purpose }}"
+      credentials = "{{ $.Values.gcpckms.credentials }}"
+      project = "{{ $.Values.gcpckms.project }}"
+      region = "{{ $.Values.gcpckms.region }}"
+      key_ring = "{{ $.Values.gcpckms.key_ring }}"
+      crypto_key = "{{ $.Values.gcpckms.crypto_key }}"
+    }
+    {{- end }}
+    {{- end }}
+  boundary-config.hcl: |
+    disable_mlock = true
+    log_format    = "standard"
+    controller {
+      name        = "kubernetes-controller"
+      description = "Boundary controller"
+      database {
+      {{- if .Values.vault.enabled }}
+        url = "file:///vault/secrets/database-creds.txt"
+      {{- else }}
+        url = "postgresql://{{.Values.database.username}}:{{.Values.database.password}}@{{ .Values.database.url }}:{{ .Values.database.port}}/{{.Values.database.dbName}}{{- if ne .Values.database.ssl true }}?sslmode=disable{{- end }}"
+      {{- end }}
+      }
+      public_cluster_addr = "localhost"
+    }
+    worker {
+      name        = "kubernetes-worker"
+      description = "Boundary worker"
+      address     = "localhost"
+      controllers = ["localhost"]
+      public_addr = "{{ .Values.publicAddress }}:{{ .Values.publicPort }}"
+    }
+    listener "tcp" {
+      address     = "0.0.0.0"
+      purpose     = "api"
+      tls_disable = true
+    }
+    listener "tcp" {
+      address     = "0.0.0.0"
+      purpose     = "cluster"
+      tls_disable = true
+    }
+    listener "tcp" {
+      address     = "0.0.0.0"
+      purpose     = "proxy"
+      tls_disable = true
+    }
+    {{- if .Values.metrics.enabled }}
+    listener "tcp" {
+      address     = "0.0.0.0"
+      purpose     = "ops"
+      tls_disable = true
+    }
+    {{- end }}
+    {{- if .Values.events.enabled }}
+    events {
+      audit_enabled = {{ .Values.events.audit }}
+      observations_enabled = {{ .Values.events.observations }}
+      sysevents_enabled = {{ .Values.events.sysevents }}
+      {{- range $sink := .Values.events.sink }}
+      sink {
+        type = {{ $sink.type | default "stderr" | quote }}
+        name = {{ $sink.name | quote }}
+        description = {{ $sink.description | quote  }}
+        event_types = {{ $sink.event_types }}
+        {{- if (and (hasKey $sink "event_source_url")) }}
+        event_source_url = {{ $sink.event_source_url }}
+        {{- end }}
+        {{- if (eq $sink.type "file") }}
+        file {
+            {{- range $k, $v := $sink.file }}
+            {{ $k }} = {{ $v | quote }}
+            {{- end }}
+        }
+        {{- end }}
+        {{- if (and (hasKey $sink "allow_filters")) }}
+        allow_filters = [
+          {{- range $filter := $sink.allow_filters }}
+          {{ $filter | quote }},
+          {{- end }}
+        ]
+        {{- end }}
+        {{- if (and (hasKey $sink "deny_filters")) }}
+        deny_filters = [
+          {{- range $filter := $sink.deny_filters }}
+          {{ $filter | quote }},
+          {{- end }}
+        ]
+        {{- end }}
+        format = {{ $sink.format | default "hclog-json" | quote }}
+        {{- if (and (hasKey $sink "audit_filter_overrides")) }}
+        audit_config {
+          audit_filter_overrides {
+            {{- range $k, $v := $sink.audit_filter_overrides }}
+            {{ $k }} = {{ $v | quote }}
+            {{- end }}
+          }
+        }
+        {{- end }}
+      }
+      {{- end }}
+      {{- if and (eq (.Values.events.enabled | toString) "true" ) (eq (len .Values.events.sink) 0 ) }}
+      sink {
+        name = "default"
+        type = "stderr"
+        description = "All events sent to stderr (default sink)"
+        event_types = ["*"]
+        format = "hclog-json"
+      }
+      {{- end }}
+    }
+    {{- end }}
+
+    {{- if .Values.vault.enabled }}
+    {{- $fqdn := .Values.vault.fqdn }}
+    {{- $mountPath := .Values.vault.mountPath }}
+    {{- $tlsSkip := .Values.vault.tlsSkipVerify }}
+    {{- range $i, $purpose := list "root" "recovery" "worker-auth" }}
+    kms "transit" {
+      purpose         = "{{ $purpose }}"
+      address         = "{{ $fqdn }}"
+      disable_renewal = false
+
+      key_name   = "{{ $purpose }}"
+      mount_path = "{{ $mountPath }}"
+      {{- if $tlsSkip }}
+      tls_skip_verify = true
+      {{- end }}
+    }
+    {{- end }}
+    {{- end }}
+
+
+    {{- if .Values.aead.enabled }}
+    {{- range $purpose, $key := .Values.aead.keys }}
+    kms "aead" {
+      purpose = "{{ $purpose }}"
+      key_id = "global_{{ $purpose }}"
+      aead_type = "aes-gcm"
+      key = "{{ $key }}"
+    }
+    {{- end }}
+    {{- end }}
+    
+    
+    {{- if .Values.gcpckms.enabled }}
+    {{- range $i, $purpose := list "root" "recovery" "worker-auth" }}
+    kms "gcpckms" {
+      purpose = "{{ $purpose }}"
+      credentials = "{{ $.Values.gcpckms.credentials }}"
+      project = "{{ $.Values.gcpckms.project }}"
+      region = "{{ $.Values.gcpckms.region }}"
+      key_ring = "{{ $.Values.gcpckms.key_ring }}"
+      crypto_key = "{{ $.Values.gcpckms.crypto_key }}"
+    }
+    {{- end }}
+    {{- end }}
+

@@ -1,0 +1,62 @@
+# kubectl -n observability apply -f deployment.yaml
+# how to install:
+# - because GKE does not support multiple port on LB Service, 
+# first, comment service udp, and then apply this deployment. 
+# Get the LB IP, update env HOST_ADDR, and then re-apply
+# - download client ovpn file from http://<LB_IP>:80
+# - uncomment service udp, comment service web, and then re-apply
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dockovpn
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dockovpn
+  template:
+    metadata:
+      labels:
+        app: dockovpn
+    spec:
+      containers:
+      - name: dockovpn
+        image: alekslitvinenk/openvpn
+        env:
+        - name: HOST_ADDR
+          value: "xxx.xxx.xxx.xxx" # change this to your LB IP
+        ports:
+        - name: openvpn
+          containerPort: 1194
+          protocol: UDP
+        - name: web
+          containerPort: 8080
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+        volumeMounts:
+          - name: vpn-dir
+            mountPath: /opt/Dockovpn_data
+      volumes:
+      - name: vpn-dir
+        persistentVolumeClaim:
+          claimName: nfs-pvc-vpn
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dockovpn
+spec:
+  type: LoadBalancer
+  ports:
+  - name: openvpn
+    port: 1194
+    targetPort: 1194
+    protocol: UDP
+  # - name: web
+  #   port: 80
+  #   targetPort: 8080
+  selector:
+    app: dockovpn

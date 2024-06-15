@@ -1,0 +1,25 @@
+# kubectl -n observability apply -f ingress.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: boundary
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+spec:
+  rules:
+    - host: boundary.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: boundary-0
+                port: 
+                  number: 9200
+  tls:
+    - hosts:
+        - boundary.ops.onxp.net
+      secretName: tls-boundary-certs
