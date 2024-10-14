@@ -30,7 +30,7 @@ kind: Ingress
 metadata:
   name: exercise-app
 spec:
-  ingressClassName: public
+  ingressClassName: nginx
   rules:
     - host: exercise-app-prod.bootcamp.onxp.net
       http:
