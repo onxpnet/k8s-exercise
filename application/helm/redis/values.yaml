@@ -7,6 +7,8 @@
 # helm install redis bitnami/redis -n exercise -f values.yaml
 # helm install redis bitnami/redis -n atlantis -f values.yaml
 
+# show default value: helm show values bitnami/redis
+
 # docs: https://github.com/bitnami/charts/tree/main/bitnami/redis
 image:
   tag: 6.2

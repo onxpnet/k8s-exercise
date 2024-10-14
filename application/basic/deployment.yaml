@@ -8,7 +8,7 @@ metadata:
     app: exercise-app
 spec:
   # comment if using HPA
-  # replicas: 1
+  replicas: 1 # number of pods to run
 
   # !IMPORTANT! labels selector for Service
   selector:
@@ -21,80 +21,86 @@ spec:
   #   rollingUpdate:
   #     maxSurge: 1
   #     maxUnavailable: 1
-
-  # affinity:
-  #   nodeAffinity:
-  #     # required, hard requirement during scheduling
-  #     requiredDuringSchedulingIgnoredDuringExecution:
-  #       nodeSelectorTerms:
-  #       - matchExpressions:
-  #         - key: operation
-  #           operator: In
-  #           values:
-  #           - onxp-alt-pool
-  #     # soft requirement during scheduling
-  #     prefferedDuringSchedulingIgnoredDuringExecution:
-  #       - weight: 1 # the higher, the more preferred
-  #         preference:
-  #           matchExpressions:
-  #           - key: operation
-  #             operator: In
-  #             values:
-  #             - onxp-alt-pool
-
-  #   podAffinity:
-  #     requiredDuringSchedulingIgnoredDuringExecution:
-  #     # pod with label confidential=high should be schedule on node with label security-zone
-  #     - labelSelector:
-  #         matchLabels:
-  #           confidential: high # pod should have label confidential: high
-  #       topologyKey: security-zone # node should have label security-zone
-    
-  #   podAntiAffinity:
-  #     preferredDuringSchedulingIgnoredDuringExecution:
-  #     # Pod should not (but could) be placed on any node where a Pod with the label confidential=none is running.
-  #     - weight: 100
-  #       podAffinityTerm:
-  #         labelSelector:
-  #           matchLabels:
-  #             confidential: none
-  #         topologyKey: kubernetes.io/hostname
-
-  # using taint & toleration
-  # tolerations: 
-    # prevent pod from being scheduled on master node
-    # - key: "node-role.kubernetes.io/master"
-    #   operation: "Exists"
-    #   effect: "NoSchedule"
-
-    # ```
-    # apiVersion: v1
-    # kind: Node
-    # metadata:
-    #   name: control-plane-node
-    # spec:
-    #   taints:
-    #   - effect: NoSchedule
-    #     key: node-role.kubernetes.io/control-plane
-    #     value: "true"
-    # ```
-    # - key: "node-role.kubernetes.io/control-plane"
-    #   operation: "Exists"
-    #   effect: "NoSchedule"
-
-    # - key: "node.kubernetes.io/unreachable"
-    #   effect: "NoExecute"
-    #   operator: "Exists"
-    # - key: "node.kubernetes.io/not-ready"
-    #   effect: "NoExecute"
-    #   operator: "Exists"
-
       
   template:
     metadata:
       labels:
         app: exercise-app
     spec:
+      affinity:
+        nodeAffinity:
+          # required, hard requirement during scheduling
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: operation
+                operator: In
+                values:
+                - onxp-alt-pool
+      #     # soft requirement during scheduling
+      #     prefferedDuringSchedulingIgnoredDuringExecution:
+      #       - weight: 1 # the higher, the more preferred
+      #         preference:
+      #           matchExpressions:
+      #           - key: operation
+      #             operator: In
+      #             values:
+      #             - onxp-alt-pool
+
+      #   podAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #     # pod with label confidential=high should be schedule on node with label security-zone
+      #     - labelSelector:  
+      #         matchLabels:
+      #           confidential: high # pod should have label confidential: high
+      #       topologyKey: security-zone # node should have label security-zone
+        
+      #   podAntiAffinity:
+      #     preferredDuringSchedulingIgnoredDuringExecution:
+      #     # Pod should not (but could) be placed on any node where a Pod with the label confidential=none is running.
+      #     - weight: 100
+      #       podAffinityTerm:
+      #         labelSelector:
+      #           matchLabels:
+      #             confidential: none
+      #         topologyKey: kubernetes.io/hostname
+
+      # using taint & toleration
+      # tolerations: 
+        # prevent pod from being scheduled on master node
+        # - key: "node-role.kubernetes.io/master"
+        #   operation: "Exists"
+        #   effect: "NoSchedule"
+
+      # tolerations:
+      #   - key: operation-taints
+      #     operator: Equal
+      #     value: alt-taints
+      #     effect: NoSchedule
+      # nodeSelector:
+      #   operation: alt
+
+        # ```
+        # apiVersion: v1
+        # kind: Node
+        # metadata:
+        #   name: control-plane-node
+        # spec:
+        #   taints:
+        #   - effect: NoSchedule
+        #     key: node-role.kubernetes.io/control-plane
+        #     value: "true"
+        # ```
+        # - key: "node-role.kubernetes.io/control-plane"
+        #   operation: "Exists"
+        #   effect: "NoSchedule"
+
+        # - key: "node.kubernetes.io/unreachable"
+        #   effect: "NoExecute"
+        #   operator: "Exists"
+        # - key: "node.kubernetes.io/not-ready"
+        #   effect: "NoExecute"
+        #   operator: "Exists"
       # initContainers:
       #   - name: init-curl
       #     image: curlimages/curl
@@ -114,7 +120,7 @@ spec:
 
       containers:
         - name: exercise-app
-          image: glendmaatita/exercise-app:v1.0.0
+          image: glendmaatita/exercise-app:v1.0.1
           imagePullPolicy: Always # or IfNotPresent
 
           # resources profile
@@ -184,27 +190,27 @@ spec:
           #   periodSeconds: 60
           #   failureThreshold: 15
             
-          # envFrom:
-          #   - configMapRef:
-          #       name: exercise-app-cm
-          #   - secretRef:
-          #       name: exercise-app-secret
+          envFrom:
+            - configMapRef:
+                name: exercise-app-cm
+            - secretRef:
+                name: exercise-app-secret
 
-          # volumeMounts:
-          # - name: app-config-volume
-          #   mountPath: /etc/app/app.conf
-          #   subPath: app.conf
-          # - name: emptydir-volume-exercise
-          #   mountPath: /data/emptydir
-          # using storage with hostpath
+          volumeMounts:
+          - name: app-config-volume
+            mountPath: /etc/app/app.conf
+            subPath: app.conf
+          - name: emptydir-volume-exercise
+            mountPath: /data/emptydir
+          # # using storage with hostpath
           # - name: hostpath-volume-exercise
           #   mountPath: /data/hostpath
-          # using storage with NFS
-          # - name: nfs-volume-exercise
-          #   mountPath: /opt/data/exercise
+          # # using storage with NFS
+          - name: nfs-volume-exercise
+            mountPath: /opt/data/exercise
 
-          # container lifecycle
-          # execute right after container is created
+          # # container lifecycle
+          # # execute right after container is created
           # lifecycle:
           #   postStart:
           #     exec:
@@ -212,24 +218,24 @@ spec:
           #     - sh
           #     - -c
           #     - sleep 15 && echo "Hello onxp!" > /tmp/postStart_done
-          # execute right before container is terminated
+          # # execute right before container is terminated
           #   preStop:
           #     preStop:
           #       httpGet:
           #       path: /stopped
           #       port: 80
 
-      restartPolicy: Always
+      # restartPolicy: Always
       # imagePullSecrets:
       #   - name: docker-secret
         
-      # volumes:
-      # - name: emptydir-volume-exercise
-      #   emptyDir: {}
+      volumes:
+      - name: emptydir-volume-exercise
+        emptyDir: {}
       
-      # - name: app-config-volume
-      #   configMap:
-      #     name: app-config
+      - name: app-config-volume
+        configMap:
+          name: app-config
 
       # # using storage with hostpath
       # - name: hostpath-volume-exercise
@@ -237,7 +243,7 @@ spec:
       #     claimName: hostpath-exercise-pvc
 
 
-      # using storage with NFS
-      # - name: nfs-volume-exercise
-      #   persistentVolumeClaim:
-      #     claimName: nfs-pvc-exercise
+      # # using storage with NFS
+      - name: nfs-volume-exercise
+        persistentVolumeClaim:
+          claimName: nfs-pvc-exercise

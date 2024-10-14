@@ -1,6 +1,6 @@
 # kubectl -n argocd apply -f ingress.yaml
 # kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-# admin:6KGojhKP6Rbnxw9x
+# admin:NSEUwNrgf9xfAkd-
 
 # More docs: https://argo-cd.readthedocs.io/en/stable/
 ---
@@ -14,7 +14,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
-  ingressClassName: public # use "nginx" if not using microk8s
+  ingressClassName: nginx # use "nginx" if not using microk8s
   rules:
     - host: argocd.bootcamp.onxp.net
       http:

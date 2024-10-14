@@ -14,5 +14,5 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nfs-server.exercise.svc.cluster.local
+    server: nfs-server.exercise.svc.cluster.local # domain
     path: "/"
