@@ -1,0 +1,25 @@
+# kubectl -n production apply -f ingress.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: redash
+  annotations:
+    kubernetes.io/ingress.class: public
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+spec:
+  rules:
+    - host: redash.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: redash
+                port: 
+                  number: 80
+  tls:
+    - hosts:
+        - redash.ops.onxp.net
+      secretName: redash-certs

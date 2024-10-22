@@ -1,0 +1,78 @@
+# kubectl -n analytic apply -f deployment.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metabase
+  labels:
+    app: metabase
+spec:
+  selector:
+    matchLabels:
+      app: metabase
+  template:
+    metadata:
+      labels:
+        app: metabase
+    spec:
+      containers:
+        - name: metabase
+          image: metabase/metabase
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: metabase-config
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: metabase-config
+data:
+  MB_DB_TYPE: postgres
+  MB_DB_DBNAME: metabase
+  MB_DB_PORT: "5432"
+  MB_DB_USER: onxp
+  MB_DB_PASS: onxpsecret
+  MB_DB_HOST: postgresql.database
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metabase
+  labels:
+    app: metabase
+spec:
+  selector:
+    app: metabase
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: metabase
+  annotations:
+    kubernetes.io/ingress.class: public
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  labels:
+    app: metabase
+spec:
+  rules:
+    - host: metabase.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: metabase
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - metabase.ops.onxp.net
+      secretName: tls-metabase

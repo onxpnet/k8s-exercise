@@ -133,3 +133,12 @@ metadata:
     name: database
     
 ---
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: analytic
+  labels:
+    name: analytic
+    
+---

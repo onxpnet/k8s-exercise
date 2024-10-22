@@ -38,3 +38,5 @@ initdbScripts:
   init_db.sql: |
     CREATE DATABASE exercise_app;
     CREATE DATABASE sonarqube;
+    CREATE DATABASE redash;
+    CREATE DATABASE metabase;

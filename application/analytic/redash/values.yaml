@@ -1,0 +1,14 @@
+# helm repo add redash https://getredash.github.io/contrib-helm-chart
+# helm install redash redash/redash -f values.yaml --namespace analytic --debug --timeout 30m
+externalPostgreSQL: postgresql://onxp:onxpsecret@postgresql.database:5432/redash
+externalRedis: redis://redis-master:6379/
+postgresql:
+  enabled: false
+  postgresqlDatabase: redash
+  postgresqlUsername: onxp
+  postgresqlPassword: onxpsecret
+redash:
+  cookieSecret: Syj5oj0owvsspKapKs0hVZqIVGDlYgwe7EdPAawG
+  secretKey: Qm5YRuvCukMu0FDpQUWdQtXVErkuHQgyKTWCgYul
+redis:
+  enabled: false
