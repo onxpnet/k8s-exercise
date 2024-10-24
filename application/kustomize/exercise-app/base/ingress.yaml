@@ -6,7 +6,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
 spec:
-  ingressClassName: nginx
+  ingressClassName: public
   rules:
     - host: exercise-app-staging.bootcamp.onxp.net
       http:

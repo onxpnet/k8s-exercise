@@ -1,4 +1,4 @@
-# helm install drone-server ./../../../charts/general -n support -f values-server.yaml --timeout 10m0s
+# helm install drone-server ./../../../charts/general -n drone -f values-server.yaml --timeout 10m0s
 
 replicaCount: 1
 
@@ -49,14 +49,14 @@ ingress:
     kubernetes.io/ingress.class: public
     cert-manager.io/cluster-issuer: letsencrypt-issuer
   hosts:
-    - host: drone.bootcamp.onxp.net
+    - host: drone.ops.onxp.net
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
-    - secretName: tls-secret-bootcamp-drone
+    - secretName: tls-secret-ops-drone
       hosts:
-        - drone.bootcamp.onxp.net
+        - drone.ops.onxp.net
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -93,7 +93,7 @@ config:
       - key: DRONE_RPC_SECRET
         value: 9DZb7JyNZ8WPXmMkYpn1orBORATfxRWhEIid9LfO
       - key: DRONE_SERVER_HOST
-        value: drone.bootcamp.onxp.net
+        value: drone.ops.onxp.net
       - key: DRONE_SERVER_PROTO
         value: https
       - key: DRONE_USER_CREATE

@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: exercise-app
 spec:
-  ingressClassName: nginx # use "nginx" if not using microk8s
+  ingressClassName: public # use "nginx" if not using microk8s
   rules:
     - host: exercise-app-prod.bootcamp.onxp.net
       http:

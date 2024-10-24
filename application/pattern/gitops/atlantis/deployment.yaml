@@ -59,7 +59,7 @@ data:
   ATLANTIS_ALLOW_COMMANDS: "version,plan,apply,unlock"
   ATLANTIS_ALLOW_FORK_PRS: "true"
   ATLANTIS_API_SECRET: onxpsecret
-  ATLANTIS_ATLANTIS_URL: "https://atlantis.bootcamp.onxp.net"
+  ATLANTIS_ATLANTIS_URL: "https://atlantis.ops.onxp.net"
   ATLANTIS_GH_TOKEN: onxpsecret
   ATLANTIS_GH_USER: onxp
   ATLANTIS_GH_WEBHOOK_SECRET: onxpsecret

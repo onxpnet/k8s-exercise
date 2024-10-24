@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: public
   rules:
-    - host: flux.bootcamp.onxp.net
+    - host: flux.ops.onxp.net
       http:
         paths:
           - path: /
@@ -21,5 +21,5 @@ spec:
                   number: 9001
   tls:
     - hosts:
-        - flux.bootcamp.onxp.net
-      secretName: tls-secret-bootcamp-gitops
+        - flux.ops.onxp.net
+      secretName: tls-secret-ops-gitops

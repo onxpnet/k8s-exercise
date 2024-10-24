@@ -1,8 +1,8 @@
-# kubectl -n support apply -f rbac.yaml
+# kubectl -n drone apply -f rbac.yaml
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  namespace: support
+  namespace: drone
   name: drone-runner
 rules:
 - apiGroups:
@@ -30,11 +30,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: drone-runner
-  namespace: support
+  namespace: drone
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: support
+  namespace: drone
 roleRef:
   kind: Role
   name: drone-runner

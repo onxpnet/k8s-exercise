@@ -1,4 +1,4 @@
-# helm install drone-runner ./../.././../charts/general -n support -f values-runner.yaml
+# helm install drone-runner ./../.././../charts/general -n drone -f values-runner.yaml
 
 replicaCount: 1
 
@@ -88,7 +88,7 @@ config:
       - key: DRONE_RPC_PROTO
         value: https
       - key: DRONE_RPC_HOST
-        value: drone.bootcamp.onxp.net
+        value: drone.ops.onxp.net
       - key: DRONE_RPC_SECRET
         value: 9DZb7JyNZ8WPXmMkYpn1orBORATfxRWhEIid9LfO
       - key: DRONE_LIMIT_TRUSTED
