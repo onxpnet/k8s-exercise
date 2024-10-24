@@ -98,7 +98,7 @@ spec:
         resources:
           requests:
             storage: 500Mi
-        storageClassName: "nfs-client"
+        # storageClassName: "nfs-client"
     podTemplate:
       spec:
         volumes:
