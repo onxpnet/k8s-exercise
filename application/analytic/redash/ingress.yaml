@@ -1,4 +1,4 @@
-# kubectl -n production apply -f ingress.yaml
+# kubectl -n analytic apply -f ingress.yaml
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

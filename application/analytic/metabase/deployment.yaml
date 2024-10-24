@@ -34,7 +34,7 @@ data:
   MB_DB_PORT: "5432"
   MB_DB_USER: onxp
   MB_DB_PASS: onxpsecret
-  MB_DB_HOST: postgresql.database
+  MB_DB_HOST: postgresql-primary.database
 
 ---
 apiVersion: v1

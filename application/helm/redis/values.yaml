@@ -6,6 +6,7 @@
 
 # helm install redis bitnami/redis -n exercise -f values.yaml
 # helm install redis bitnami/redis -n atlantis -f values.yaml
+# helm install redis bitnami/redis -n analytic -f values.yaml
 
 # show default value: helm show values bitnami/redis
 

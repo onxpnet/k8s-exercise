@@ -1,9 +1,9 @@
-# kubectl -n observability apply -f hostpath-pvc.yaml
+# kubectl -n observability apply -f volume.yaml
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: hostpath-grafana-pvc
+  name: grafana-pvc
 spec:
   accessModes:
     - ReadWriteOnce

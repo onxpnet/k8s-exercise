@@ -6,8 +6,7 @@ metadata:
   name: uptime-pvc
 spec:
   accessModes:
-    - ReadWriteMany
-  storageClassName: ""
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi

@@ -13,7 +13,6 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
   hostPath:
     path: /mnt/data/elasticsearch
     type: DirectoryOrCreate
@@ -30,7 +29,6 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: ""
   selector:
     matchLabels:
       type: elasticsearch

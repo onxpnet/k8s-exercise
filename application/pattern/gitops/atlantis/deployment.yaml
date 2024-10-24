@@ -54,7 +54,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: atlantis-gcp-config
+  name: atlantis-config
 data:
   ATLANTIS_ALLOW_COMMANDS: "version,plan,apply,unlock"
   ATLANTIS_ALLOW_FORK_PRS: "true"
@@ -83,6 +83,17 @@ data:
   google.json:  <base 64 kube.conf>
   
 ---
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: atlantis-gcp-config
+data:
+  google.json:  <base gsa key>
+  
+---
+
 
 apiVersion: v1
 kind: Service
