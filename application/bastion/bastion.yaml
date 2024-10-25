@@ -1,4 +1,4 @@
-# kubectl -n exercise apply -f bastion.yaml
+# kubectl -n observability apply -f bastion.yaml
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -20,5 +20,17 @@ spec:
         - name: bastion
           image: glendmaatita/bastion:latest
           imagePullPolicy: Always
+          volumeMounts:
+          - name: grafana-volume
+            mountPath: /var/lib/grafana
+          - name: grafana-ini-volume
+            mountPath: /etc/grafana
+      volumes:
+        - name: grafana-volume
+          persistentVolumeClaim:
+            claimName: grafana-pvc
+        - name: grafana-ini-volume
+          persistentVolumeClaim:
+            claimName: grafana-ini-pvc
 
 ---

@@ -23,7 +23,7 @@ storage:
 agent:
   # optional, because it's deprecated 
   # https://www.jaegertracing.io/docs/1.55/architecture/#agent
-  enabled: true
+  enabled: false
 
 # bisa pakai OTEL Collector juga (2 2 nya atau salah satunya)
 collector:
