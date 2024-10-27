@@ -1,6 +1,6 @@
 # kubectl -n argocd apply -f ingress.yaml
 # kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-# admin:NSEUwNrgf9xfAkd-
+# admin:Yy2m6p7LikCfVj9s
 
 # More docs: https://argo-cd.readthedocs.io/en/stable/
 ---
