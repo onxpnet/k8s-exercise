@@ -1,0 +1,76 @@
+---
+
+# kubectl -n exercise apply -f micro-app.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro-app
+  labels:
+    app: micro-app
+spec:
+  selector:
+    matchLabels:
+      app: micro-app
+  template:
+    metadata:
+      labels:
+        app: micro-app
+    spec:
+      containers:
+        - name: micro-app
+          image: glendmaatita/micro-app:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: micro-app-config
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: micro-app-config
+data:
+  NODE_ENV: production
+  OTEL_URL: https://jaeger.ops.onxp.net/v1/traces
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: micro-app
+  labels:
+    app: micro-app
+spec:
+  selector:
+    app: micro-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: micro-app
+  annotations:
+    kubernetes.io/ingress.class: public
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  labels:
+    app: micro-app
+spec:
+  rules:
+    - host: micro-app.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: micro-app
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - micro-app.ops.onxp.net
+      secretName: tls-micro-app

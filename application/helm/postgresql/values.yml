@@ -40,3 +40,4 @@ initdbScripts:
     CREATE DATABASE sonarqube;
     CREATE DATABASE redash;
     CREATE DATABASE metabase;
+    CREATE DATABASE glitchtip;

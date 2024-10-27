@@ -1,0 +1,76 @@
+---
+
+# kubectl -n exercise apply -f small-app.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: small-app
+  labels:
+    app: small-app
+spec:
+  selector:
+    matchLabels:
+      app: small-app
+  template:
+    metadata:
+      labels:
+        app: small-app
+    spec:
+      containers:
+        - name: small-app
+          image: glendmaatita/small-app:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: small-app-config
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: small-app-config
+data:
+  NODE_ENV: production
+  OTEL_URL: https://jaeger.ops.onxp.net/v1/traces
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: small-app
+  labels:
+    app: small-app
+spec:
+  selector:
+    app: small-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: small-app
+  annotations:
+    kubernetes.io/ingress.class: public
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  labels:
+    app: small-app
+spec:
+  rules:
+    - host: small-app.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: small-app
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - small-app.ops.onxp.net
+      secretName: tls-small-app

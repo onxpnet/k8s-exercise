@@ -1,0 +1,78 @@
+---
+
+# kubectl -n exercise apply -f exercise-app.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exercise-app
+  labels:
+    app: exercise-app
+spec:
+  selector:
+    matchLabels:
+      app: exercise-app
+  template:
+    metadata:
+      labels:
+        app: exercise-app
+    spec:
+      containers:
+        - name: exercise-app
+          image: glendmaatita/exercise-app:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: exercise-app-config
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: exercise-app-config
+data:
+  SENTRY_DSN: https://f7e370778931467290c99907cf987e10@glitchtip.ops.onxp.net/1
+  LOKI_HOST: exercise-app
+  NODE_ENV: production
+  OTEL_URL: https://jaeger.ops.onxp.net/v1/traces
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: exercise-app
+  labels:
+    app: exercise-app
+spec:
+  selector:
+    app: exercise-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: exercise-app
+  annotations:
+    kubernetes.io/ingress.class: public
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  labels:
+    app: exercise-app
+spec:
+  rules:
+    - host: exercise-app.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: exercise-app
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - exercise-app.ops.onxp.net
+      secretName: tls-exercise-app

@@ -1,13 +1,15 @@
 # helm repo add glitchtip https://gitlab.com/api/v4/projects/16325141/packages/helm/stable
 # helm install glitchtip glitchtip/glitchtip -f values.yaml -n observability
+
+# register
+# username: glend.maatita@gmail.com
+# password: DdCBd55W1TL78onOFTwi
 ---
 image:
-  tag: v3.3.2
+  tag: v4.1.4
   pullPolicy: IfNotPresent
 
 worker:
-  nodeSelector: 
-    operation: "glitchtip"
   autoscaling:
     enabled: true
     minReplicas: 1
@@ -15,34 +17,8 @@ worker:
     targetCPU: 80
     targetMemory: 80
   livenessProbe: {}
-  resources:
-    limits:
-      cpu: 900m
-      memory: 768Mi
-    requests:
-      cpu: 900m
-      memory: 350Mi
-
-
-flower:
-  nodeSelector: 
-    operation: "glitchtip"
-  resources: {}
-
-beat:
-  nodeSelector: 
-    operation: "glitchtip"
 
 web:
-  nodeSelector: 
-    operation: "glitchtip"
-  autoscaling:
-    enabled: true
-    minReplicas: 1
-    maxReplicas: 2
-    targetCPU: 80
-    targetMemory: 80
-
   ingress:
     enabled: true
     className: ""
@@ -62,6 +38,11 @@ web:
 env:
   normal:
     GLITCHTIP_DOMAIN: https://glitchtip.ops.onxp.net
+  secret:
+    SECRET_KEY: BCmpQYr7kg2WGQMi4GcM
+    DATABASE_URL: postgres://onxp:onxpsecret@postgresql-primary.database:5432/glitchtip
+    REDIS_URL: redis://redis-master
+
 
 postgresql:
   enabled: false
