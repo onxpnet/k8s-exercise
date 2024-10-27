@@ -1,4 +1,7 @@
 # kubectl -n observability apply -f deployment.yaml
+# register
+# username: glend.maatita@gmail.com
+# password: DdCBd55W1TL78onOFTwi
 ---
 apiVersion: apps/v1
 kind: Deployment

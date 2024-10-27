@@ -32,7 +32,7 @@ metadata:
   name: exercise-app-config
 data:
   SENTRY_DSN: https://f7e370778931467290c99907cf987e10@glitchtip.ops.onxp.net/1
-  LOKI_HOST: exercise-app
+  LOKI_HOST: http://loki.observability:3100
   NODE_ENV: production
   OTEL_URL: https://jaeger.ops.onxp.net/v1/traces
 
