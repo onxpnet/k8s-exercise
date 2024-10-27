@@ -36,7 +36,7 @@ data:
   NODE_ENV: production
   OTEL_URL: https://jaeger.ops.onxp.net/v1/traces
   UNLEASH_TOKEN: '*:development.23b161784941a2270715e6170b1ee32ddefab84bcceae9b51adeb777'
-  UNLEASH_URL: https://unleash.ops.onxp.net
+  UNLEASH_URL: https://unleash.ops.onxp.net/api
 ---
 apiVersion: v1
 kind: Service
