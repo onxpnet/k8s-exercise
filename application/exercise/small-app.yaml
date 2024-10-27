@@ -33,6 +33,7 @@ metadata:
 data:
   NODE_ENV: production
   OTEL_URL: https://jaeger.ops.onxp.net/v1/traces
+  TARGET_URL: http://micro-app.exercise/command
 
 ---
 apiVersion: v1
