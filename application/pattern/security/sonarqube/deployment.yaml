@@ -4,6 +4,8 @@
 # sysctl -w fs.file-max=131072
 # ulimit -n 131072
 # ulimit -u 8192
+# login
+# admin:DdCBd55W1TL78onOFTwi
 ---
 apiVersion: apps/v1
 kind: Deployment
