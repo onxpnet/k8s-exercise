@@ -1,0 +1,9 @@
+# kubectl -n support apply -f growthbook-pvc.yaml
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: growthbook-pvc
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: { requests: { storage: 2Gi } }

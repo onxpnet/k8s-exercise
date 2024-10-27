@@ -41,3 +41,4 @@ initdbScripts:
     CREATE DATABASE redash;
     CREATE DATABASE metabase;
     CREATE DATABASE glitchtip;
+    CREATE DATABASE unleash;

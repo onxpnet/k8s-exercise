@@ -1,0 +1,88 @@
+# kubectl -n support apply -f deployment.yml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: unleash
+  name: unleash
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unleash
+  template:
+    metadata:
+      labels:
+        app: unleash
+    spec:
+      containers:
+        - args:            
+          image: unleashorg/unleash-server:latest
+          name: unleash
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: unleash-cm
+      restartPolicy: Always
+
+--- 
+kind: ConfigMap
+metadata: 
+  name: unleash-cm
+apiVersion: v1
+data: 
+  DATABASE_URL: "postgres://onxp:onxpsecret@postgresql-primary.database:5432/unleash"
+  UNLEASH_URL: "https://unleash.ops.onxp.net"
+  DATABASE_SSL: "false"
+  LOG_LEVEL: "warn"
+  INIT_FRONTEND_API_TOKENS: "default:development.unleash-insecure-frontend-api-token"
+  INIT_CLIENT_API_TOKENS: "default:development.unleash-insecure-api-token"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: unleash
+  name: unleash
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4242
+  selector:
+    app: unleash
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: unleash
+  annotations:
+    kubernetes.io/ingress.class: public
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
+    nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,x-content-type-options,x-organization 
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://unleash.ops.onxp.net"
+spec:
+  rules:
+    - host: unleash.ops.onxp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: unleash
+                port: 
+                  number: 80
+    
+  tls:
+    - hosts:
+        - unleash.ops.onxp.net
+      secretName: tls-secret-unleash
+      
+
