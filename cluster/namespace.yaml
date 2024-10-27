@@ -151,3 +151,12 @@ metadata:
     name: kafka
     
 ---
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: unleash
+  labels:
+    name: unleash
+    
+---

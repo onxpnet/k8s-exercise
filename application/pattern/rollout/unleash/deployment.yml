@@ -1,4 +1,5 @@
-# kubectl -n support apply -f deployment.yml
+# kubectl -n unleash apply -f deployment.yml
+# login -> admin:unleash4all
 ---
 apiVersion: apps/v1
 kind: Deployment
