@@ -33,6 +33,7 @@ metadata:
 data:
   NODE_ENV: production
   OTEL_URL: http://jaeger-collector.observability/v1/traces
+  APP_PORT: "3000"
 
 ---
 apiVersion: v1

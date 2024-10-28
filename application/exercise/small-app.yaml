@@ -38,6 +38,7 @@ data:
   REDIS_URL: redis://redis-master:6379
   REDIS_TOPIC: onxp
   GRPC_TARGET: micro-app:50051
+  APP_PORT: "3000"
 
 ---
 apiVersion: v1
