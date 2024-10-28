@@ -34,7 +34,7 @@ data:
   SENTRY_DSN: https://f7e370778931467290c99907cf987e10@glitchtip.ops.onxp.net/1
   LOKI_HOST: http://loki.observability:3100
   NODE_ENV: production
-  OTEL_URL: https://ot-collector.ops.onxp.net/v1/traces
+  OTEL_URL: http://jaeger-collector.observability/v1/traces
   UNLEASH_TOKEN: '*:development.23b161784941a2270715e6170b1ee32ddefab84bcceae9b51adeb777'
   UNLEASH_URL: https://unleash.ops.onxp.net/api
 ---

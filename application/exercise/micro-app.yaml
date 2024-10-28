@@ -32,7 +32,7 @@ metadata:
   name: micro-app-config
 data:
   NODE_ENV: production
-  OTEL_URL: https://ot-collector.ops.onxp.net/v1/traces
+  OTEL_URL: http://jaeger-collector.observability/v1/traces
 
 ---
 apiVersion: v1
