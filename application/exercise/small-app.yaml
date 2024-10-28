@@ -33,7 +33,7 @@ metadata:
 data:
   NODE_ENV: production
   OTEL_URL: http://jaeger-collector.observability/v1/traces
-  TARGET_URL: http://micro-app.exercise/command
+  TARGET_URL: http://micro-app.exercise
   KAFKA_HOST: 10.1.207.185:9092
   REDIS_URL: redis://redis-master:6379
   REDIS_TOPIC: onxp
