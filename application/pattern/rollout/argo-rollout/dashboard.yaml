@@ -7,6 +7,7 @@ metadata:
   name: argo-rollouts-dashboard
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
 spec:
   ingressClassName: public
   rules:
@@ -19,7 +20,7 @@ spec:
               service:
                 name: argo-rollouts-dashboard
                 port: 
-                  number: 80
+                  number: 3100
   tls:
     - hosts:
         - argo-rollouts-dashboard.ops.onxp.net

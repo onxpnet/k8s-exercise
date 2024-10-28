@@ -5,7 +5,7 @@
 # kubectl argo rollouts version
 
 # Install Argo Rollout on K8s
-# kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml
+# kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
 
 # How to Rollout
 # Rollout per step: kubectl argo rollouts promote exercise-app-canary -n exercise
@@ -53,8 +53,6 @@ spec:
               memory: 70Mi
               cpu: 100m
       restartPolicy: Always
-
----
 
 ---
 apiVersion: autoscaling/v2

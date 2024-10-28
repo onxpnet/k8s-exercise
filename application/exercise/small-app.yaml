@@ -34,7 +34,7 @@ data:
   NODE_ENV: production
   OTEL_URL: https://jaeger.ops.onxp.net/v1/traces
   TARGET_URL: http://micro-app.exercise/command
-  KAFKA_HOST: kafka.kafka:9092
+  KAFKA_HOST: 10.1.207.185:9092
   REDIS_URL: redis://redis-master:6379
   REDIS_TOPIC: onxp
   GRPC_TARGET: micro-app:50051

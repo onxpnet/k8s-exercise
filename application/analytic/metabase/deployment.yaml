@@ -1,4 +1,6 @@
 # kubectl -n analytic apply -f deployment.yaml
+# login
+# admin@onxp.net:onxpsecret123
 ---
 apiVersion: apps/v1
 kind: Deployment

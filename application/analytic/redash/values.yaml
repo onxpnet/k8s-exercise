@@ -1,5 +1,7 @@
 # helm repo add redash https://getredash.github.io/contrib-helm-chart
 # helm install redash redash/redash -f values.yaml --namespace analytic --debug --timeout 30m
+# login
+# admin@onxp.net:onxpsecret
 externalPostgreSQL: postgresql://onxp:onxpsecret@postgresql-primary.database:5432/redash
 externalRedis: redis://redis-master:6379/
 postgresql:
