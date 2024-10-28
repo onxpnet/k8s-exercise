@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: small-app
-          image: glendmaatita/small-app:revou
+          image: glendmaatita/small-app:latest
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
