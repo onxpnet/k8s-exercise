@@ -3,7 +3,7 @@
 # login
 # admin@onxp.net:onxpsecret
 externalPostgreSQL: postgresql://onxp:onxpsecret@postgresql-primary.database:5432/redash
-externalRedis: redis://redis-master:6379/
+# externalRedis: redis://redis-master:6379/
 postgresql:
   enabled: false
   postgresqlDatabase: redash
@@ -13,4 +13,4 @@ redash:
   cookieSecret: Syj5oj0owvsspKapKs0hVZqIVGDlYgwe7EdPAawG
   secretKey: Qm5YRuvCukMu0FDpQUWdQtXVErkuHQgyKTWCgYul
 redis:
-  enabled: false
+  enabled: true
